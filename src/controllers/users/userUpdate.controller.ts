@@ -4,11 +4,11 @@ import { Request, Response } from "express"
 const userUpdateController = async (req: Request, res: Response) => {
     try {
 
-        const { name, email, password } = req.body
+        const { name, email, password, contact } = req.body
 
         const { id } = req.params
 
-        const response = await userUpdateService(id, name, email, password)
+        const response = await userUpdateService(id, name, email, password, contact)
 
         return res.status(200).json(response)
     } catch (err) {

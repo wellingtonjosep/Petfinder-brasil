@@ -4,11 +4,11 @@ import { Request, Response } from "express";
 const userCreateController = async (req: Request, res: Response) => {
 
     try {
-        const { name, email, password } = req.body
+        const { name, email, password, contact } = req.body
 
         console.log("ola")
 
-        const response = await userCreateService(name, email, password)
+        const response = await userCreateService(name, email, password, contact)
 
         return res.status(201).json(response)
     } catch (err) {

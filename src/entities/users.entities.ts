@@ -18,6 +18,9 @@ export class User {
   @Column()
   password: string;
 
+  @Column()
+  contact: string;
+
   @OneToMany(type => Animals, user => User)
   animal: Animals;
   

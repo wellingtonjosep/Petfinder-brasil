@@ -26,6 +26,8 @@ const verifyIdUserMiddleware = async (
       message: "you cannot update a user other than you",
     });
   }
+
+  next();
 };
 
 export default verifyIdUserMiddleware;

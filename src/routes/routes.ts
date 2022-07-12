@@ -8,6 +8,7 @@ import userLoginController from "../controllers/users/userLogin.controller";
 import userUpdateController from "../controllers/users/userUpdate.controller";
 
 import verifyFieldsMiddleware from "../middlewares/verifyFields.middleware";
+import verifyFieldsAnimalsCreateMiddleware from "../middlewares/verifyFieldsAnimalsCreate.middleware";
 import verifyIdUserMiddleware from "../middlewares/verifyIdUser.middleware";
 import verifyTokenMiddleware from "../middlewares/verifyToken.middleware";
 
@@ -30,7 +31,7 @@ router.delete(
 );
 
 router.get("/animals");
-router.post("/animals", animalCreateController);
+router.post("/animals", verifyFieldsAnimalsCreateMiddleware, animalCreateController);
 router.patch("/animals/:id");
 
 export default router;

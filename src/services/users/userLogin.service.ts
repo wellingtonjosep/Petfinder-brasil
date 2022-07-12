@@ -17,7 +17,7 @@ const userLoginService = async (email: string, password: string) => {
   }
 
   if (!bcrypt.compareSync(password, account.password)) {
-    throw new AppError(400, "Wrong email/password");
+    throw new AppError(401, "Wrong email/password");
   }
 
   const token = jwt.sign({ email: email, id: account.id }, String(process.env.JWT_SECRET), {

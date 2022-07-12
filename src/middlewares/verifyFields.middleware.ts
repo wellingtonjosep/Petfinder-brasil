@@ -9,24 +9,6 @@ const verifyFieldsMiddleware = (req: Request, res: Response, next: NextFunction)
     });
   }
 
-  if (email === "") {
-    res.status(400).json({
-      message: "Email not found",
-    });
-  }
-
-  if (name === "") {
-    res.status(400).json({
-      message: "Name not found",
-    });
-  }
-
-  if (password === "") {
-    res.status(400).json({
-      message: "Password not found",
-    });
-  }
-
   next();
 };
 

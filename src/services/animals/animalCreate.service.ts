@@ -1,7 +1,7 @@
 import { AppDataSource } from "../../data-source";
 import { Animals } from "../../entities/animals.entities";
 import { User } from "../../entities/users.entities";
-import userCreateService from "../users/userCreate.service";
+import { AppError } from "../../errors/appError";
 
 const animalCreateService = async (
   name: string,
@@ -24,7 +24,7 @@ const animalCreateService = async (
   });
 
   if (!user) {
-    throw new Error("user not exist");
+    throw new AppError(404,"user not exist");
   }
 
   const animal = animalsRepository.create({
@@ -41,7 +41,7 @@ const animalCreateService = async (
 
   await animalsRepository.save(animal);
 
-  return animal;
+  return {...animal, user: animal.user.id};
 };
 
 export default animalCreateService;

@@ -1,14 +1,13 @@
 import {
   Entity,
   Column,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
   OneToMany,
   CreateDateColumn,
 } from "typeorm";
-
-import { v4 as uuid } from "uuid";
 import { Animals } from "./animals.entities";
+
+import { Comment } from "./userAnimalsComments.entities";
 
 @Entity()
 export class User {
@@ -27,10 +26,10 @@ export class User {
   @Column()
   contact: string;
 
-  @CreateDateColumn({ default: () => new Date() })
+  @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn({ default: () => new Date() })
+  @CreateDateColumn()
   updated_at: Date;
 
   @OneToMany((type) => Animals, (animal) => animal.user, {
@@ -38,9 +37,6 @@ export class User {
   })
   animal: Animals[];
 
-  // constructor() {
-  //   if (!this.id) {
-  //     this.id = uuid();
-  //   }
-  // }
+  @OneToMany((type) => Comment, (comment) => comment.user)
+  comment: Comment[];
 }

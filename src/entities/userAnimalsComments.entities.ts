@@ -1,38 +1,20 @@
-import {
-  Entity,
-  Column,
-  PrimaryColumn,
-  OneToMany,
-  CreateDateColumn,
-  ManyToMany,
-  JoinTable,
-  ManyToOne,
-} from "typeorm";
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { v4 as uuid } from "uuid";
 import { Animals } from "./animals.entities";
+import { User } from "./users.entities";
 
 @Entity()
-export class User {
-  @PrimaryColumn("uuid")
+export class Comment {
+  @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
   @Column()
   comment: string;
 
-  // @ManyToMany((type) => User, {
-  //   eager: true,
-  // })
-  // @JoinTable()
-  // user: User;
+  @ManyToOne((type) => User)
+  user: User;
 
-  // @ManyToOne((type) => Animals)
-  // @JoinTable()
-  // animals: Animals;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-  }
+  @ManyToOne((type) => Animals)
+  animals: Animals;
 }

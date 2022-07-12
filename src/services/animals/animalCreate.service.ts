@@ -27,19 +27,6 @@ const animalCreateService = async (
     throw new Error("user not exist");
   }
 
-  console.log(user);
-
-  // const animal = new Animals();
-  // animal.name = name;
-  // animal.breed = breed;
-  // animal.species = species;
-  // animal.description = description;
-  // animal.image = image;
-  // animal.lastLocation = lastLocation;
-  // animal.lastDate = lastDate;
-  // animal.found = found;
-  // animal.user = user;
-
   const animal = animalsRepository.create({
     name,
     breed,

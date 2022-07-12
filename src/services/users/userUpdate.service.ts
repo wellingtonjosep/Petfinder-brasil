@@ -18,7 +18,7 @@ const userUpdateService = async (
   contact && (user!.contact = contact);
   password && (user!.password = bcrypt.hashSync(password, 10));
 
-  // await userRepository.update(id, { ...user, update_at: new Date() });
+  await userRepository.update(id, { ...user, updated_at: new Date() });
 
   return { ...user, password: undefined };
 };

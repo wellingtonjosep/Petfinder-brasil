@@ -1,5 +1,6 @@
 import { Router } from "express";
 import animalCreateController from "../controllers/animals/animalCreate.controller";
+import animalListController from "../controllers/animals/animalList.controller";
 import commentsCreateController from "../controllers/comments/commentsCreate.controller";
 
 import userCreateController from "../controllers/users/userCreate.controller";
@@ -31,7 +32,7 @@ router.delete(
   userDeleteController
 );
 
-router.get("/animals");
+router.get("/animals", animalListController);
 router.post(
   "/animals",
   verifyFieldsAnimalsCreateMiddleware,
@@ -39,6 +40,6 @@ router.post(
 );
 router.patch("/animals/:id");
 
-router.post("/comments/", verifyTokenMiddleware, commentsCreateController); //:id user
+router.post("/comments", verifyTokenMiddleware, commentsCreateController); //:id user
 
 export default router;

@@ -8,13 +8,9 @@ const userUpdateService = async (id: string, name: string, email: string, passwo
 
     const user = await userRepository.findOneBy({id})
 
-    if (!user) {
-        throw new Error("User not found")
-    }
-
-    name && (user.name = name)
-    email && (user.email = email)
-    password && (user.password = bcrypt.hashSync(password, 10))
+    name && (user!.name = name)
+    email && (user!.email = email)
+    password && (user!.password = bcrypt.hashSync(password, 10))
 
     await userRepository.update(id, {...user})
 

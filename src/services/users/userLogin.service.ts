@@ -11,11 +11,15 @@ const userLoginService = async (email: string, password: string) => {
 
   const account = users.find((user) => user.email === email);
 
-  if (!bcrypt.compareSync(password, account!.password)) {
+  if (!account) {
+    throw new Error("Account not found");
+  }
+
+  if (!bcrypt.compareSync(password, account.password)) {
     throw new Error("Wrong email/password");
   }
 
-  const token = jwt.sign({ email: email, id: account!.id }, String(process.env.JWT_SECRET), {
+  const token = jwt.sign({ email: email, id: account.id }, String(process.env.JWT_SECRET), {
     expiresIn: "1d",
   });
 

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import animalCreateController from "../controllers/animals/animalCreate.controller";
 
 import userCreateController from "../controllers/users/userCreate.controller";
 import userDeleteController from "../controllers/users/userDelete.controller";
@@ -15,7 +16,21 @@ const router = Router();
 router.get("/users", userListController);
 router.post("/users", verifyFieldsMiddleware, userCreateController);
 router.post("/users/login", userLoginController);
-router.patch("/users/:id", verifyTokenMiddleware, verifyIdUserMiddleware, userUpdateController);
-router.delete("/users/:id", verifyTokenMiddleware, verifyIdUserMiddleware, userDeleteController)
+router.patch(
+  "/users/:id",
+  verifyTokenMiddleware,
+  verifyIdUserMiddleware,
+  userUpdateController
+);
+router.delete(
+  "/users/:id",
+  verifyTokenMiddleware,
+  verifyIdUserMiddleware,
+  userDeleteController
+);
+
+router.get("/animals");
+router.post("/animals", animalCreateController);
+router.patch("/animals/:id");
 
 export default router;

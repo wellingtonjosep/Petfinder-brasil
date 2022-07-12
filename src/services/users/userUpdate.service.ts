@@ -1,6 +1,7 @@
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
 import bcrypt from "bcrypt";
+import { AppError } from "../../errors/appError";
 
 const userUpdateService = async (
   id: string,
@@ -13,14 +14,20 @@ const userUpdateService = async (
 
   const user = await userRepository.findOneBy({ id });
 
-  name && (user!.name = name);
-  email && (user!.email = email);
-  contact && (user!.contact = contact);
-  password && (user!.password = bcrypt.hashSync(password, 10));
+  if (!user) {
+    throw new AppError(404, "not found user");
+  }
 
-  await userRepository.update(id, { ...user, updated_at: new Date() });
+  const newUser = {
+    name: name || user.name,
+    email: email || user.email,
+    contact: contact || user.contact,
+    password: bcrypt.hashSync(password, 10) || user.password,
+  };
 
-  return { ...user, password: undefined };
+  await userRepository.update(user!.id, { ...newUser });
+
+  return { ...newUser, password: undefined };
 };
 
 export default userUpdateService;

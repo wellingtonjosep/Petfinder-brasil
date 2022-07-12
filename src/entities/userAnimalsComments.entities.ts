@@ -1,11 +1,15 @@
-import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-
-import { v4 as uuid } from "uuid";
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from "typeorm";
 import { Animals } from "./animals.entities";
 import { User } from "./users.entities";
 
 @Entity()
-export class Comment {
+export class Comments {
   @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
@@ -17,4 +21,7 @@ export class Comment {
 
   @ManyToOne((type) => Animals)
   animals: Animals;
+
+  @CreateDateColumn()
+  created_at: Date;
 }

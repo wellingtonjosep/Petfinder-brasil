@@ -1,5 +1,5 @@
 {
-  "name": "Capstone-M4",
+  "name": "capstone-m4",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "git@github.com:wellingtonjosep/Capstone-M4.git",
@@ -22,8 +22,11 @@
     "typescript": "^4.7.4"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "^28.1.4",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/supertest": "^2.0.12",
+    "bcrypt": "^5.0.1",
     "jest": "^28.1.2",
     "jsonwebtoken": "^8.5.1",
     "sqlite3": "^5.0.8",

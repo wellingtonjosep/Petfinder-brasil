@@ -1,5 +1,6 @@
 import animalCreateService from "../../services/animals/animalCreate.service";
 import { Request, Response } from "express";
+import { AppError, handleError } from "../../errors/appError";
 const animalCreateController = async (req: Request, res: Response) => {
   try {
     const {
@@ -11,7 +12,7 @@ const animalCreateController = async (req: Request, res: Response) => {
       lastLocation,
       lastDate,
       found,
-      userId
+      userId,
     } = req.body;
 
     const response = await animalCreateService(
@@ -28,8 +29,8 @@ const animalCreateController = async (req: Request, res: Response) => {
 
     return res.status(201).json(response);
   } catch (err) {
-    if (err instanceof Error) {
-      return;
+    if (err instanceof AppError) {
+      handleError(err, res);
     }
   }
 };

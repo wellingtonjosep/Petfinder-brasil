@@ -1,5 +1,6 @@
 import userUpdateService from "../../services/users/userUpdate.service"
 import { Request, Response } from "express"
+import { AppError, handleError } from "../../errors/appError"
 
 const userUpdateController = async (req: Request, res: Response) => {
     try {
@@ -12,13 +13,10 @@ const userUpdateController = async (req: Request, res: Response) => {
 
         return res.status(200).json(response)
     } catch (err) {
-        if (err instanceof Error) {
-            return res.status(403).json({
-                error: err.name,
-                message: err.message
-            })
+        if (err instanceof AppError) {
+          handleError(err, res);
         }
-    }
+      }
 }
 
 export default userUpdateController

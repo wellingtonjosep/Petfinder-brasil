@@ -2,6 +2,7 @@ import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { AppError } from "../../errors/appError";
 
 const userLoginService = async (email: string, password: string) => {
   
@@ -12,11 +13,11 @@ const userLoginService = async (email: string, password: string) => {
   const account = users.find((user) => user.email === email);
 
   if (!account) {
-    throw new Error("Account not found");
+    throw new AppError(404,"Account not found");
   }
 
   if (!bcrypt.compareSync(password, account.password)) {
-    throw new Error("Wrong email/password");
+    throw new AppError(400, "Wrong email/password");
   }
 
   const token = jwt.sign({ email: email, id: account.id }, String(process.env.JWT_SECRET), {

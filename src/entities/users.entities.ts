@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany, CreateDateColumn } from "typeorm";
 
 import { v4 as uuid } from "uuid";
 import { Animals } from "./animals.entities";
@@ -20,6 +20,12 @@ export class User {
 
   @Column()
   contact: string;
+
+  @CreateDateColumn()
+  created_at: Date
+
+  @CreateDateColumn()
+  updated_at: Date
 
   @OneToMany(type => Animals, user => User)
   animal: Animals;

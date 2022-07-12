@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, OneToMany, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryColumn, ManyToOne, CreateDateColumn } from "typeorm";
 
 import { v4 as uuid } from "uuid";
 import { User } from "./users.entities";
@@ -27,10 +27,16 @@ export class Animals {
   lastLocation: string;
 
   @Column()
-  date: string;
+  lastDate: string;
 
   @Column()
   found: boolean;
+
+  @CreateDateColumn()
+  created_at: Date
+
+  @CreateDateColumn()
+  updated_at: Date
 
   @ManyToOne((type) => User, (animal) => Animals, {
     eager: true,

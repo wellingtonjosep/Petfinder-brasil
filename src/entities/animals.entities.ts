@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, CreateDateColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  ManyToOne,
+  CreateDateColumn,
+} from "typeorm";
 
 import { v4 as uuid } from "uuid";
 import { User } from "./users.entities";
@@ -33,15 +39,18 @@ export class Animals {
   found: boolean;
 
   @CreateDateColumn()
-  created_at: Date
+  created_at: Date;
 
   @CreateDateColumn()
-  updated_at: Date
+  updated_at: Date;
 
-  @ManyToOne((type) => User, (animal) => Animals, {
-    eager: true,
-  })
-  user: User[];
+  @ManyToOne((type) => User, (user) => user.animal)
+  user: User;
+
+  // @ManyToOne((type) => Comment, {
+  //   eager: true,
+  // })
+  // comment: Comment[];
 
   constructor() {
     if (!this.id) {

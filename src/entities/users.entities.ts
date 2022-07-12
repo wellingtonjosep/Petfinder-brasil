@@ -1,12 +1,18 @@
-import { Entity, Column, PrimaryColumn, OneToMany, CreateDateColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  CreateDateColumn,
+} from "typeorm";
 
 import { v4 as uuid } from "uuid";
 import { Animals } from "./animals.entities";
 
 @Entity()
 export class User {
-
-  @PrimaryColumn("uuid")
+  @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
   @Column()
@@ -21,19 +27,20 @@ export class User {
   @Column()
   contact: string;
 
-  @CreateDateColumn()
-  created_at: Date
+  @CreateDateColumn({ default: () => new Date() })
+  created_at: Date;
 
-  @CreateDateColumn()
-  updated_at: Date
+  @CreateDateColumn({ default: () => new Date() })
+  updated_at: Date;
 
-  @OneToMany(type => Animals, user => User)
-  animal: Animals;
-  
+  @OneToMany((type) => Animals, (animal) => animal.user, {
+    eager: true,
+  })
+  animal: Animals[];
 
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-  }
+  // constructor() {
+  //   if (!this.id) {
+  //     this.id = uuid();
+  //   }
+  // }
 }

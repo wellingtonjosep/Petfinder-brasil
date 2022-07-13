@@ -1,8 +1,9 @@
 import { AppDataSource } from "../../data-source";
-import { Animals } from "../../entities/animals.entities";
-import { Comments } from "../../entities/userAnimalsComments.entities";
-import { User } from "../../entities/users.entities";
 import { AppError } from "../../errors/appError";
+
+import { Comments } from "../../entities/comments";
+import { User } from "../../entities/users.entities";
+import { Animals } from "../../entities/animals.entities";
 
 const commentsCreateService = async (
   comment: string,
@@ -11,7 +12,6 @@ const commentsCreateService = async (
 ) => {
   const userRepository = AppDataSource.getRepository(User);
   const animalsRepository = AppDataSource.getRepository(Animals);
-
   const commentsRepository = AppDataSource.getRepository(Comments);
 
   const user = await userRepository.findOne({
@@ -31,14 +31,16 @@ const commentsCreateService = async (
   }
 
   const newComment = commentsRepository.create({
+    animals,
     comment,
     user,
-    animals,
+    userName: user.name,
+    created_at: new Date(),
   });
 
   await commentsRepository.save(newComment);
 
-  return { ...newComment, user: undefined, animals: undefined };
+  return { ...newComment, animals: undefined, user: undefined };
 };
 
 export default commentsCreateService;

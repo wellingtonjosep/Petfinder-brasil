@@ -1,11 +1,16 @@
 import express, { Request, Response, NextFunction } from "express";
 
+import swaggerUi from "swagger-ui-express";
+import swaggerDocs from "./swagger.json";
+
 import { AppError } from "./errors/appError";
 import router from "./routes/routes";
 
 const app = express();
 
 app.use(express.json());
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(router);
 

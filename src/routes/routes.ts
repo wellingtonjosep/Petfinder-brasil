@@ -31,6 +31,7 @@ router.delete(
   "/users/:id",
   verifyTokenMiddleware,
   verifyIdUserMiddleware,
+
   userDeleteController
 );
 
@@ -43,6 +44,6 @@ router.post(
 router.patch("/animals/:id", updateAnimalController);
 router.get("/animals/lost", animalLostListController);
 
-router.post("/comments", verifyTokenMiddleware, commentsCreateController); //:id user
+router.post("/comments", verifyTokenMiddleware, commentsCreateController);
 
 export default router;

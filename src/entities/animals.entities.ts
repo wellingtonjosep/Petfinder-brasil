@@ -2,12 +2,11 @@ import {
   Entity,
   Column,
   ManyToOne,
-  CreateDateColumn,
   PrimaryGeneratedColumn,
   OneToMany,
 } from "typeorm";
 
-import { Comments } from "./userAnimalsComments.entities";
+import { Comments } from "./comments";
 import { User } from "./users.entities";
 
 @Entity()

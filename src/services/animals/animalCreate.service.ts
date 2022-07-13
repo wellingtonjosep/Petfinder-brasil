@@ -24,7 +24,7 @@ const animalCreateService = async (
   });
 
   if (!user) {
-    throw new AppError(404,"user not exist");
+    throw new AppError(404, "user not exist");
   }
 
   const animal = animalsRepository.create({
@@ -37,11 +37,13 @@ const animalCreateService = async (
     lastDate,
     found,
     user,
+    created_at: new Date(),
+    updated_at: new Date(),
   });
 
   await animalsRepository.save(animal);
 
-  return {...animal, user: animal.user.id};
+  return { ...animal, user: animal.user.id };
 };
 
 export default animalCreateService;

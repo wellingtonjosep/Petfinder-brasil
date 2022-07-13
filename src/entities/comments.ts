@@ -1,9 +1,11 @@
 import {
   Entity,
   Column,
-  ManyToOne,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+  OneToOne,
 } from "typeorm";
 import { Animals } from "./animals.entities";
 import { User } from "./users.entities";
@@ -13,19 +15,20 @@ export class Comments {
   @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
-  @Column()
-  comment: string;
-
-  @ManyToOne((type) => User, {
-    onDelete: "CASCADE",
-  })
-  user: User;
-
   @ManyToOne((type) => Animals, {
     onDelete: "CASCADE",
   })
   animals: Animals;
 
-  @CreateDateColumn()
+  @ManyToOne(() => User)
+  user!: User;
+
+  @Column()
+  userName: string;
+
+  @Column()
+  comment: string;
+
+  @Column()
   created_at: Date;
 }

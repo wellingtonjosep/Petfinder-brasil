@@ -4,6 +4,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 
 import { Comments } from "./comments";
@@ -49,9 +51,13 @@ export class Animals {
   })
   user: User;
 
-  @OneToMany((type) => Comments, (comment) => comment.animals, {
-    onDelete: "CASCADE",
-    eager: true,
-  })
-  comment: Comments[];
+  // @OneToMany((type) => Comments, (comment) => comment.animals, {
+  //   onDelete: "CASCADE",
+  //   eager: true,
+  // })
+  // comment: Comments[];
+
+  @ManyToMany(() => Comments)
+  @JoinTable()
+  comments: Comments[];
 }

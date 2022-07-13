@@ -3,6 +3,8 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { Animals } from "./animals.entities";
 import { User } from "./users.entities";
@@ -12,13 +14,13 @@ export class Comments {
   @PrimaryGeneratedColumn("uuid")
   readonly id: string;
 
-  @ManyToOne((type) => Animals, {
+  @ManyToOne((type) => User, {
     onDelete: "CASCADE",
   })
-  animals: Animals;
+  user: User;
 
-  @ManyToOne(() => User)
-  user!: User;
+  @ManyToOne(() => Animals)
+  animal!: Animals;
 
   @Column()
   userName: string;

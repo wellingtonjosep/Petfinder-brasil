@@ -26,17 +26,20 @@ export class User {
   @Column()
   contact: string;
 
-  @CreateDateColumn({ default: () => new Date() })
+  @CreateDateColumn()
   created_at: Date;
 
-  @CreateDateColumn({ default: () => new Date() })
+  @CreateDateColumn()
   updated_at: Date;
 
   @OneToMany((type) => Animals, (animal) => animal.user, {
+    onDelete: "CASCADE",
     eager: true,
   })
   animal: Animals[];
 
-  @OneToMany((type) => Comments, (comment) => comment.user)
+  @OneToMany((type) => Comments, (comment) => comment.user, {
+    onDelete: "CASCADE",
+  })
   comment: Comment[];
 }

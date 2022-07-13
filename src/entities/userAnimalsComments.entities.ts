@@ -16,10 +16,14 @@ export class Comments {
   @Column()
   comment: string;
 
-  @ManyToOne((type) => User)
+  @ManyToOne((type) => User, {
+    onDelete: "CASCADE",
+  })
   user: User;
 
-  @ManyToOne((type) => Animals)
+  @ManyToOne((type) => Animals, {
+    onDelete: "CASCADE",
+  })
   animals: Animals;
 
   @CreateDateColumn()

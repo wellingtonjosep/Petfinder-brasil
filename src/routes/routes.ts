@@ -2,6 +2,7 @@ import { Router } from "express";
 import animalCreateController from "../controllers/animals/animalCreate.controller";
 import animalListController from "../controllers/animals/animalList.controller";
 import commentsCreateController from "../controllers/comments/commentsCreate.controller";
+import userAnimalsController from "../controllers/users/userAnimals.controller";
 
 import userCreateController from "../controllers/users/userCreate.controller";
 import userDeleteController from "../controllers/users/userDelete.controller";
@@ -17,6 +18,7 @@ import verifyTokenMiddleware from "../middlewares/verifyToken.middleware";
 const router = Router();
 
 router.get("/users", userListController);
+router.get("/users/animals/:id", userAnimalsController)
 router.post("/users", verifyFieldsMiddleware, userCreateController);
 router.post("/users/login", userLoginController);
 router.patch(

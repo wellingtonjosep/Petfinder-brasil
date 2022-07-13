@@ -3,21 +3,17 @@ import { Request, Response } from "express";
 import { AppError, handleError } from "../../errors/appError";
 
 const userCreateController = async (req: Request, res: Response) => {
+  try {
+    const { name, email, password, contact } = req.body;
 
-    try {
-        const { name, email, password, contact } = req.body
+    const response = await userCreateService(name, email, password, contact);
 
-        console.log("ola")
+    return res.status(201).json(response);
+  } catch (err) {
+    if (err instanceof AppError) {
+      handleError(err, res);
+    }
+  }
+};
 
-        const response = await userCreateService(name, email, password, contact)
-
-        return res.status(201).json(response)
-    } catch (err) {
-        if (err instanceof AppError) {
-          handleError(err, res);
-        }
-      }
-
-}
-
-export default userCreateController
+export default userCreateController;

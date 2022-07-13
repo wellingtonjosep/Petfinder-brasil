@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from "typeorm";
 
-import { Comment } from "./userAnimalsComments.entities";
+import { Comments } from "./userAnimalsComments.entities";
 import { User } from "./users.entities";
 
 @Entity()
@@ -48,7 +48,7 @@ export class Animals {
   @ManyToOne((type) => User, (user) => user.animal)
   user: User;
 
-  @OneToMany((type) => Comment, (comment) => comment.user, {
+  @OneToMany((type) => Comments, (comment) => comment.animals, {
     eager: true,
   })
   comment: Comment[];

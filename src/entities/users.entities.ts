@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { Animals } from "./animals.entities";
 
-import { Comment } from "./userAnimalsComments.entities";
+import { Comments } from "./userAnimalsComments.entities";
 
 @Entity()
 export class User {
@@ -26,10 +26,10 @@ export class User {
   @Column()
   contact: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ default: () => new Date() })
   created_at: Date;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ default: () => new Date() })
   updated_at: Date;
 
   @OneToMany((type) => Animals, (animal) => animal.user, {
@@ -37,6 +37,6 @@ export class User {
   })
   animal: Animals[];
 
-  @OneToMany((type) => Comment, (comment) => comment.user)
+  @OneToMany((type) => Comments, (comment) => comment.user)
   comment: Comment[];
 }

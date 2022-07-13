@@ -45,11 +45,14 @@ export class Animals {
   @CreateDateColumn()
   updated_at: Date;
 
-  @ManyToOne((type) => User, (user) => user.animal)
+  @ManyToOne((type) => User, (user) => user.animal, {
+    onDelete: "CASCADE",
+  })
   user: User;
 
   @OneToMany((type) => Comments, (comment) => comment.animals, {
+    onDelete: "CASCADE",
     eager: true,
   })
-  comment: Comment[];
+  comment: Comments[];
 }

@@ -3,9 +3,6 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  ManyToMany,
-  JoinTable,
-  OneToOne,
 } from "typeorm";
 import { Animals } from "./animals.entities";
 import { User } from "./users.entities";

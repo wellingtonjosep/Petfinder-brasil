@@ -16,9 +16,7 @@ const animalUpdateService = async ({
 }: IAnimals) => {
   const animalRepository = AppDataSource.getRepository(Animals);
 
-  const animal = await animalRepository.findOneBy({
-    id,
-  });
+  const animal = await animalRepository.findOneBy({id});
 
   if (!animal) {
     throw new AppError(404, "Animal not found!");
@@ -35,7 +33,7 @@ const animalUpdateService = async ({
 
   await animalRepository.update(animal!.id, {...animal, updated_at: new Date()});
 
-  return { message: `${animal.name} has been updated` };
+  return { ...animal };
 };
 
 export default animalUpdateService;

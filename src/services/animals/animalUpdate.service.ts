@@ -33,10 +33,7 @@ const animalUpdateService = async ({
   lastDate ? (animal.lastDate = lastDate) : animal.lastDate;
   found ? (animal.found = found) : animal.found;
 
-  await animalRepository.update(animal!.id, {
-    ...animal,
-    updated_at: new Date(),
-  });
+  await animalRepository.update(animal!.id, {...animal, updated_at: new Date()});
 
   return { message: `${animal.name} has been updated` };
 };

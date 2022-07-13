@@ -2,12 +2,11 @@ import {
   Entity,
   Column,
   ManyToOne,
-  CreateDateColumn,
   PrimaryGeneratedColumn,
   OneToMany,
 } from "typeorm";
 
-import { Comments } from "./userAnimalsComments.entities";
+import { Comments } from "./comments";
 import { User } from "./users.entities";
 
 @Entity()
@@ -39,10 +38,10 @@ export class Animals {
   @Column()
   found: boolean;
 
-  @CreateDateColumn()
+  @Column()
   created_at: Date;
 
-  @CreateDateColumn()
+  @Column()
   updated_at: Date;
 
   @ManyToOne((type) => User, (user) => user.animal, {

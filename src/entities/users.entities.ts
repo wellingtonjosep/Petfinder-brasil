@@ -3,11 +3,12 @@ import {
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
-  CreateDateColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { Animals } from "./animals.entities";
-
-import { Comments } from "./userAnimalsComments.entities";
+import { Comments } from "./comments";
 
 @Entity()
 export class User {
@@ -26,10 +27,10 @@ export class User {
   @Column()
   contact: string;
 
-  @CreateDateColumn()
+  @Column()
   created_at: Date;
 
-  @CreateDateColumn()
+  @Column()
   updated_at: Date;
 
   @OneToMany((type) => Animals, (animal) => animal.user, {
@@ -37,9 +38,5 @@ export class User {
     eager: true,
   })
   animal: Animals[];
-
-  @OneToMany((type) => Comments, (comment) => comment.user, {
-    onDelete: "CASCADE",
-  })
-  comment: Comment[];
+ 
 }

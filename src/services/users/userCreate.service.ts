@@ -1,7 +1,6 @@
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
 import bcrypt from "bcrypt";
-import { IUser } from "../../interfaces/user";
 
 const userCreateService = async (
   name: string,
@@ -16,6 +15,8 @@ const userCreateService = async (
   user.email = email;
   user.contact = contact;
   user.password = bcrypt.hashSync(password, 10);
+  user.created_at = new Date();
+  user.updated_at = new Date();
 
   userRepository.create(user);
   await userRepository.save(user);

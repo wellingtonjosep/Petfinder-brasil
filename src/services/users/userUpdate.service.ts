@@ -25,7 +25,7 @@ const userUpdateService = async (
     password: bcrypt.hashSync(password, 10) || user.password,
   };
 
-  await userRepository.update(user!.id, { ...newUser });
+  await userRepository.update(user!.id, { ...newUser, updated_at: new Date() });
 
   return { ...newUser, password: undefined };
 };

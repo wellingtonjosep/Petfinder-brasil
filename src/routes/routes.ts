@@ -29,6 +29,7 @@ router.delete(
   "/users/:id",
   verifyTokenMiddleware,
   verifyIdUserMiddleware,
+
   userDeleteController
 );
 

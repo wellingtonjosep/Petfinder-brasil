@@ -39,10 +39,10 @@ export class Animals {
   @Column()
   found: boolean;
 
-  @CreateDateColumn()
+  @Column()
   created_at: Date;
 
-  @CreateDateColumn()
+  @Column()
   updated_at: Date;
 
   @ManyToOne((type) => User, (user) => user.animal, {

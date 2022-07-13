@@ -40,6 +40,6 @@ router.post(
 );
 router.patch("/animals/:id");
 
-router.post("/comments", verifyTokenMiddleware, commentsCreateController); //:id user
+router.post("/comments", verifyTokenMiddleware, commentsCreateController);
 
 export default router;

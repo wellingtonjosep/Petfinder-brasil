@@ -6,7 +6,7 @@ const animalLostListService = async () => {
 
   const animals = await animalsRepository.find();
 
-  const animalsLost = animals.filter((animal) => animal.found !== false);
+  const animalsLost = animals.filter((animal) => animal.found === false);
 
   return animalsLost;
 };

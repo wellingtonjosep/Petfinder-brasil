@@ -1,4 +1,14 @@
 import { Router } from "express";
+<<<<<<< HEAD
+=======
+import animalCreateController from "../controllers/animals/animalCreate.controller";
+import animalListController from "../controllers/animals/animalList.controller";
+import animalLostListController from "../controllers/animals/animalListLost.controller";
+import animalsFoundListController from "../controllers/animals/animalsListFound.controller";
+import updateAnimalController from "../controllers/animals/animalUpdate.controller";
+import commentsCreateController from "../controllers/comments/commentsCreate.controller";
+import userAnimalsController from "../controllers/users/userAnimals.controller";
+>>>>>>> c74e99c0222154eaa7a977b54cfff783f915cf16
 
 import userCreateController from "../controllers/users/userCreate.controller";
 import userDeleteController from "../controllers/users/userDelete.controller";
@@ -49,6 +59,7 @@ router.post(
 );
 router.patch("/animals/:id", updateAnimalController);
 router.get("/animals/lost", animalLostListController);
+router.get("/animals/found", animalsFoundListController);
 
 //COMENTÁRIOS
 router.post("/comments", verifyTokenMiddleware, commentsCreateController);

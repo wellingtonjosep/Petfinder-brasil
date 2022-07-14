@@ -22,14 +22,14 @@ const animalUpdateService = async ({
     throw new AppError(404, "Animal not found!");
   }
 
-  name ? (animal.name = name) : animal.name;
-  breed ? (animal.breed = breed) : animal.breed;
-  species ? (animal.species = species) : animal.species;
-  description ? (animal.species = description) : animal.description;
-  image ? (animal.image = image) : animal.image;
-  lastLocation ? (animal.lastLocation = lastLocation) : animal.lastLocation;
-  lastDate ? (animal.lastDate = lastDate) : animal.lastDate;
-  found ? (animal.found = found) : animal.found;
+  name && (animal.name = name)
+  breed && (animal.breed = breed) 
+  species && (animal.species = species)
+  description && (animal.species = description) 
+  image && (animal.image = image)
+  lastLocation && (animal.lastLocation = lastLocation) 
+  lastDate && (animal.lastDate = lastDate) 
+  found && (animal.found = found) 
 
   await animalRepository.update(animal!.id, {...animal, updated_at: new Date()});
 

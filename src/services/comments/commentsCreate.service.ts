@@ -40,7 +40,7 @@ const commentsCreateService = async (
 
   await commentsRepository.save(newComment);
 
-  return { ...newComment, animals: undefined, user: user.name };
+  return { ...newComment, animals: undefined, user: undefined };
 };
 
 export default commentsCreateService;

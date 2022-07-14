@@ -2,6 +2,7 @@ import { Router } from "express";
 import animalCreateController from "../controllers/animals/animalCreate.controller";
 import animalListController from "../controllers/animals/animalList.controller";
 import animalLostListController from "../controllers/animals/animalListLost.controller";
+import animalsFoundListController from "../controllers/animals/animalsListFound.controller";
 import updateAnimalController from "../controllers/animals/animalUpdate.controller";
 import commentsCreateController from "../controllers/comments/commentsCreate.controller";
 import userAnimalsController from "../controllers/users/userAnimals.controller";
@@ -44,6 +45,7 @@ router.post(
 );
 router.patch("/animals/:id", updateAnimalController);
 router.get("/animals/lost", animalLostListController);
+router.get("/animals/found", animalsFoundListController);
 
 router.post("/comments", verifyTokenMiddleware, commentsCreateController);
 

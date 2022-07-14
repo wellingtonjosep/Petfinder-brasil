@@ -51,12 +51,6 @@ export class Animals {
   })
   user: User;
 
-  // @OneToMany((type) => Comments, (comment) => comment.animals, {
-  //   onDelete: "CASCADE",
-  //   eager: true,
-  // })
-  // comment: Comments[];
-
   @ManyToMany(() => Comments)
   @JoinTable()
   comments: Comments[];

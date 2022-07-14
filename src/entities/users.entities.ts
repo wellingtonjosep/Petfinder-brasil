@@ -1,12 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToOne,
-  ManyToMany,
-  JoinTable,
-} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Animals } from "./animals.entities";
 import { Comments } from "./comments";
 
@@ -38,5 +30,4 @@ export class User {
     eager: true,
   })
   animal: Animals[];
- 
 }

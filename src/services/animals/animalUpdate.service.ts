@@ -16,22 +16,25 @@ const animalUpdateService = async ({
 }: IAnimals) => {
   const animalRepository = AppDataSource.getRepository(Animals);
 
-  const animal = await animalRepository.findOneBy({id});
+  const animal = await animalRepository.findOneBy({ id });
 
   if (!animal) {
     throw new AppError(404, "Animal not found!");
   }
-
-  name && (animal.name = name)
-  breed && (animal.breed = breed) 
-  species && (animal.species = species)
-  description && (animal.species = description) 
-  image && (animal.image = image)
-  lastLocation && (animal.lastLocation = lastLocation) 
-  lastDate && (animal.lastDate = lastDate) 
-  found && (animal.found = found) 
-
-  await animalRepository.update(animal!.id, {...animal, updated_at: new Date()});
+  const newAnimal = {
+    name: name || animal.name,
+    breed: breed || animal.breed,
+    species: species || animal.species,
+    description: description || animal.description,
+    image: image || animal.image,
+    lastLocation: lastLocation || animal.lastLocation,
+    lastDate: lastDate || animal.lastDate,
+    found: found || animal.found,
+  };
+  await animalRepository.update(animal!.id, {
+    ...newAnimal,
+    updated_at: new Date(),
+  });
 
   return { ...animal };
 };

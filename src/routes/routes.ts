@@ -15,7 +15,7 @@ import animalsFoundListController from "../controllers/animals/animalsListFound.
 import userAnimalsController from "../controllers/users/userAnimals.controller";
 
 import commentsCreateController from "../controllers/comments/commentsCreate.controller";
-import findAnimalsCommentsController from "../controllers/comments/findAnimalsComments.controller";
+import findAnimalsCommentsController from "../controllers/animals/findAnimalsComments.controller";
 
 import verifyFieldsMiddleware from "../middlewares/verifyFields.middleware";
 import verifyFieldsAnimalsCreateMiddleware from "../middlewares/verifyFieldsAnimalsCreate.middleware";
@@ -53,8 +53,9 @@ router.patch("/animals/:id", updateAnimalController);
 router.get("/animals/lost", animalLostListController);
 router.get("/animals/found", animalsFoundListController);
 
+router.get("/animals/comments/:id", findAnimalsCommentsController);
+
 //COMENTÁRIOS
 router.post("/comments", verifyTokenMiddleware, commentsCreateController);
-router.get("/comments/animals/:id", findAnimalsCommentsController);
 
 export default router;

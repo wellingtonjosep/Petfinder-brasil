@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { AppError, handleError } from "../../errors/appError";
-import findAnimalsCommentsService from "../../services/comments/findAnimalsComments.service";
+import findAnimalsCommentsService from "../../services/animals/findAnimalsComments.service";
 
 const findAnimalsCommentsController = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const findAnimalsComments = await findAnimalsCommentsService(id);
+    const { comments } = req.body;
+    const findAnimalsComments = await findAnimalsCommentsService(id, comments);
 
     return res.json(findAnimalsComments);
   } catch (err) {

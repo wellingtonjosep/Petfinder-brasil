@@ -54,7 +54,7 @@ const commentsCreateService = async (
 
   const { comments } = animalReturn;
 
-  return { ...newComment, user: undefined };
+  return { ...newComment, user: undefined, animal: undefined };
 };
 
 export default commentsCreateService;

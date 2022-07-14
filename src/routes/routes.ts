@@ -47,7 +47,7 @@ router.post(
 router.patch("/animals/:id", updateAnimalController);
 router.get("/animals/lost", animalLostListController);
 router.get("/animals/found", animalsFoundListController);
-router.delete("/animals/found/:id", updateAnimalFoundController);
+router.patch("/animals/found/:id", updateAnimalFoundController);
 router.post("/comments", verifyTokenMiddleware, commentsCreateController);
 
 export default router;

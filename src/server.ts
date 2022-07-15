@@ -9,5 +9,5 @@ import { AppDataSource } from "./data-source";
     .catch((err) => {
       console.log(err);
     });
-  app.listen(3001);
+  app.listen(process.env.PORT || 3001);
 })();

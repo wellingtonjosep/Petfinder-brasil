@@ -13,12 +13,12 @@ const verifyIdUserMiddleware = async (
 
   const { id } = req.params;
 
-  const user = await userRepository.findOneBy({ id });
+  const users = await userRepository.find();
 
-  if (!user) {
-    return res.status(404).json({
-      message: "User not found",
-    });
+  const idExist = users.find((user) => user.id === id);
+
+  if (!idExist) {
+    return res.status(404).json({ message: "user not found" });
   }
 
   if (id !== userId) {

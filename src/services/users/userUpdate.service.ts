@@ -1,6 +1,6 @@
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import { AppError } from "../../errors/appError";
 
 const userUpdateService = async (
@@ -22,7 +22,7 @@ const userUpdateService = async (
     name: name || user.name,
     email: email || user.email,
     contact: contact || user.contact,
-    password: bcrypt.hashSync(password, 10) || user.password,
+    password: bcryptjs.hashSync(password, 10) || user.password,
   };
 
   await userRepository.update(user!.id, { ...newUser, updated_at: new Date() });

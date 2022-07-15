@@ -1,6 +1,6 @@
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 const userCreateService = async (
   name: string,
@@ -14,7 +14,7 @@ const userCreateService = async (
   user.name = name;
   user.email = email;
   user.contact = contact;
-  user.password = bcrypt.hashSync(password, 10);
+  user.password = bcryptjs.hashSync(password, 10);
   user.created_at = new Date();
   user.updated_at = new Date();
 

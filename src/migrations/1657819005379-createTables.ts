@@ -1,12 +1,12 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class createTables1657742123357 implements MigrationInterface {
-    name = 'createTables1657742123357'
+export class createTables1657819005379 implements MigrationInterface {
+    name = 'createTables1657819005379'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
+        await queryRunner.query(`CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "contact" character varying NOT NULL, "created_at" TIMESTAMP NOT NULL, "updated_at" TIMESTAMP NOT NULL, CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "comments" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "userName" character varying NOT NULL, "comment" character varying NOT NULL, "created_at" TIMESTAMP NOT NULL, "userId" uuid, "animalId" uuid, CONSTRAINT "PK_8bf68bc960f2b69e818bdb90dcb" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "animals" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "breed" character varying NOT NULL, "species" character varying NOT NULL, "description" character varying NOT NULL, "image" character varying NOT NULL, "lastLocation" character varying NOT NULL, "lastDate" character varying NOT NULL, "found" boolean NOT NULL, "created_at" TIMESTAMP NOT NULL, "updated_at" TIMESTAMP NOT NULL, "userId" uuid, CONSTRAINT "PK_6154c334bbb19186788468bce5c" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "user" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "contact" character varying NOT NULL, "created_at" TIMESTAMP NOT NULL, "updated_at" TIMESTAMP NOT NULL, CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "animals_comments_comments" ("animalsId" uuid NOT NULL, "commentsId" uuid NOT NULL, CONSTRAINT "PK_9f26c7fd1d5869e07962f05b5d9" PRIMARY KEY ("animalsId", "commentsId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_613a15b339fb145e7374abf863" ON "animals_comments_comments" ("animalsId") `);
         await queryRunner.query(`CREATE INDEX "IDX_d275e026b31e29152a66fe2940" ON "animals_comments_comments" ("commentsId") `);
@@ -26,9 +26,9 @@ export class createTables1657742123357 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "public"."IDX_d275e026b31e29152a66fe2940"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_613a15b339fb145e7374abf863"`);
         await queryRunner.query(`DROP TABLE "animals_comments_comments"`);
-        await queryRunner.query(`DROP TABLE "user"`);
         await queryRunner.query(`DROP TABLE "animals"`);
         await queryRunner.query(`DROP TABLE "comments"`);
+        await queryRunner.query(`DROP TABLE "user"`);
     }
 
 }

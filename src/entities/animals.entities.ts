@@ -46,7 +46,7 @@ export class Animals {
   @Column()
   updated_at: Date;
 
-  @ManyToOne((type) => User, (user) => user.animal, {
+  @ManyToOne((type) => User, (user) => user.animals, {
     onDelete: "CASCADE",
   })
   user: User;

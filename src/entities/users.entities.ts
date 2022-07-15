@@ -9,6 +9,8 @@ import {
 } from "typeorm";
 import { Animals } from "./animals.entities";
 import { Comments } from "./comments";
+import { v4 as uuid } from "uuid";
+
 
 @Entity()
 export class User {
@@ -37,6 +39,11 @@ export class User {
     onDelete: "CASCADE",
     eager: true,
   })
-  animal: Animals[];
- 
+  animals: Animals[];
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }

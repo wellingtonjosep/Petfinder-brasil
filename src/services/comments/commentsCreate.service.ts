@@ -24,28 +24,37 @@ const commentsCreateService = async (
     where: {
       id: animalsId,
     },
-    relations: ["comments"]
+    relations: ["comments"],
   });
 
   if (!user || !animal) {
     throw new AppError(404, "user or animals not exist");
   }
 
-  const newComment = commentsRepository.create({user,animal,comment,userName: user.name, created_at: new Date()});
+  const newComment = commentsRepository.create({
+    user,
+    animal,
+    comment,
+    userName: user.name,
+    created_at: new Date(),
+  });
 
   await commentsRepository.save(newComment);
 
   if (animal.comments) {
-    await animalsRepository.save({...animal, comments: [...animal.comments, newComment]})
+    await animalsRepository.save({
+      ...animal,
+      comments: [...animal.comments, newComment],
+    });
   } else {
-    await animalsRepository.save({...animal, comments: [newComment] },{  })
+    await animalsRepository.save({ ...animal, comments: [newComment] }, {});
   }
 
-  const { animal: animalReturn } = newComment
+  const { animal: animalReturn } = newComment;
 
-  const { comments } = animalReturn
+  const { comments } = animalReturn;
 
-  return { ...newComment, user: undefined };
+  return { ...newComment, user: undefined, animal: undefined };
 };
 
 export default commentsCreateService;

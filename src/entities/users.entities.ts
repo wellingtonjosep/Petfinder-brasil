@@ -1,12 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToOne,
-  ManyToMany,
-  JoinTable,
-} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Animals } from "./animals.entities";
 import { Comments } from "./comments";
 import { v4 as uuid } from "uuid";
@@ -39,11 +31,5 @@ export class User {
     onDelete: "CASCADE",
     eager: true,
   })
-  animals: Animals[];
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-  }
+  animal: Animals[];
 }

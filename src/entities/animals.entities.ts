@@ -3,7 +3,6 @@ import {
   Column,
   ManyToOne,
   PrimaryGeneratedColumn,
-  OneToMany,
   ManyToMany,
   JoinTable,
 } from "typeorm";
@@ -46,16 +45,10 @@ export class Animals {
   @Column()
   updated_at: Date;
 
-  @ManyToOne((type) => User, (user) => user.animals, {
+  @ManyToOne((type) => User, (user) => user.animal, {
     onDelete: "CASCADE",
   })
   user: User;
-
-  // @OneToMany((type) => Comments, (comment) => comment.animals, {
-  //   onDelete: "CASCADE",
-  //   eager: true,
-  // })
-  // comment: Comments[];
 
   @ManyToMany(() => Comments)
   @JoinTable()

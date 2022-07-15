@@ -12,7 +12,6 @@ export class createTables1657819005379 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "IDX_d275e026b31e29152a66fe2940" ON "animals_comments_comments" ("commentsId") `);
         await queryRunner.query(`ALTER TABLE "comments" ADD CONSTRAINT "FK_7e8d7c49f218ebb14314fdb3749" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "comments" ADD CONSTRAINT "FK_b0d87b87918d48683771e19401d" FOREIGN KEY ("animalId") REFERENCES "animals"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "animals" ADD CONSTRAINT "FK_d5b0e9fd87c1b1daf0d88a5012b" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "animals_comments_comments" ADD CONSTRAINT "FK_613a15b339fb145e7374abf8637" FOREIGN KEY ("animalsId") REFERENCES "animals"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
         await queryRunner.query(`ALTER TABLE "animals_comments_comments" ADD CONSTRAINT "FK_d275e026b31e29152a66fe29401" FOREIGN KEY ("commentsId") REFERENCES "comments"("id") ON DELETE CASCADE ON UPDATE CASCADE`);
     }
@@ -20,7 +19,6 @@ export class createTables1657819005379 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "animals_comments_comments" DROP CONSTRAINT "FK_d275e026b31e29152a66fe29401"`);
         await queryRunner.query(`ALTER TABLE "animals_comments_comments" DROP CONSTRAINT "FK_613a15b339fb145e7374abf8637"`);
-        await queryRunner.query(`ALTER TABLE "animals" DROP CONSTRAINT "FK_d5b0e9fd87c1b1daf0d88a5012b"`);
         await queryRunner.query(`ALTER TABLE "comments" DROP CONSTRAINT "FK_b0d87b87918d48683771e19401d"`);
         await queryRunner.query(`ALTER TABLE "comments" DROP CONSTRAINT "FK_7e8d7c49f218ebb14314fdb3749"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_d275e026b31e29152a66fe2940"`);

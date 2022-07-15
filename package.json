@@ -8,7 +8,9 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test jest",
     "typeorm": "typeorm-ts-node-commonjs",
-    "dev": "ts-node-dev src/server.ts"
+    "dev": "ts-node-dev src/server.ts",
+    "start": "node dist/src/server.js",
+    "build": "tsc"
   },
   "dependencies": {
     "bcryptjs": "^5.0.1",

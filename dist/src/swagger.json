@@ -1,0 +1,458 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "PetFinder - Brasil",
+        "description": "Essa api tem como objetivo cadastro de usuário, cadastro de pet para cada usuário e qualquer usuário pode comentar em qualquer pet perdido",
+        "termsOfService": "http://localhost:3001/docs",
+        "contact": {
+            "email": "felipebarcellos11@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3001",
+            "description": "API para rodar em desenvolvimento "
+        }
+    ],
+    "paths": {
+        "/users": {
+            "get": {
+                "summary": "Listar todos usuários",
+                "description": "Essa rota será responsável por listar todos usuários cadastrados",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "applcation/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users"
+                            },
+                            "examples": {
+                                "Users": {
+                                    "value": {
+                                        "users": [
+                                            {
+                                                "id": "fe71b76d-4ac0-4597-bc4c-5e77b0410b97",
+                                                "name": "wellington",
+                                                "email": "wellington@gmail.com",
+                                                "password": "$2b$10$kGIvVc/qr6/UmHgohpjreuVUm0Yw0WUbVPMbySvPr8D2dH3OURVGa",
+                                                "contact": "9999-9999",
+                                                "created_at": "2022-07-13T02:11:49.925Z",
+                                                "updated_at": "2022-07-13T02:11:49.925Z",
+                                                "animal": []
+                                            },
+                                            {
+                                                "id": "2cda1a37-8835-43c7-a5ca-88f6c9afa715",
+                                                "name": "Felipe",
+                                                "email": "felipe@teste.com",
+                                                "password": "$2b$10$/pyb1ZXNNVUFqh.j0DelxOyl3WX.ugCCCVZZ8Aw.AZWioduGvowz.",
+                                                "contact": "9999-9999",
+                                                "created_at": "2022-07-13T02:21:15.155Z",
+                                                "updated_at": "2022-07-13T02:21:15.155Z",
+                                                "animal": []
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cadastro de usuário",
+                "description": "Essa rota será responsável por cadastrar um novo usuário",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Users"
+                            },
+                            "examples": {
+                                "Users": {
+                                    "value": {
+                                        "name": "Felipe",
+                                        "email": "felipe@teste.com",
+                                        "password": "senhaforte",
+                                        "contact": "9999-9999"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "400": {
+                        "description": "Fill in all fields"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "summary": "Fazer login com usuário",
+                "description": "Essa rota será responsável por fazer login com usuário e gerar seu token",
+                "tags": ["Users"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UsersLogin"
+                            },
+                            "examples": {
+                                "Users": {
+                                    "value": {
+                                        "email": "teste@teste.com.br",
+                                        "password": "123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/UsersLogin"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Wrong email/password"
+                    },
+                    "404": {
+                        "description": "Account not found"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "delete": {
+                "summary": "Delete(deletar) usuário",
+                "description": "Essa rota será responsável por deletar usuário. Antes é verificado se usuário está logado com verificação de token e se o usuário que está tentando se deletar recebe o mesmo id",
+                "tags": ["Users"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "nome do usuário pelo id via params",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Update(alteração), no usuário",
+                "description": "Essa rota será responsável por fazer alteração de dados do usuário. Você deve passar todo corpo do usuário e enfim retornar os dados que deseja alterar. Você deve passar o bearerAuth(token) para ser identificado como usuário logado",
+                "tags": ["Users"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "nome do usuário pelo id via params",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Users"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "400": {
+                        "description": "Fill in all fields"
+                    }
+                }
+            }
+        },
+        "/animals": {
+            "get": {
+                "summary": "Listar todos usuários",
+                "description": "Essa rota será responsável por listar todos usuários cadastrados",
+                "tags": ["Animals"],
+                "requestBody": {
+                    "content": {
+                        "applcation/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Animals"
+                            },
+                            "examples": {
+                                "Users": {
+                                    "value": {
+                                        "animal": [
+                                            {
+                                                "id": "0d968d80-22d8-499e-9cbe-9501124da07b",
+                                                "name": "THOR",
+                                                "breed": "rotivailer",
+                                                "species": "puddle",
+                                                "description": "teste teste teste teste teste",
+                                                "image": "outras",
+                                                "lastLocation": "casa wellington",
+                                                "lastDate": "11/05/20",
+                                                "found": false,
+                                                "created_at": "2022-07-13T04:05:31.380Z",
+                                                "updated_at": "2022-07-13T04:05:31.380Z",
+                                                "comment": []
+                                            },
+                                            {
+                                                "id": "a5179622-107c-47af-979d-2becaaf37e47",
+                                                "name": "THOR",
+                                                "breed": "rotivailer",
+                                                "species": "puddle",
+                                                "description": "teste teste teste teste teste",
+                                                "image": "outras",
+                                                "lastLocation": "casa wellington",
+                                                "lastDate": "11/05/20",
+                                                "found": false,
+                                                "created_at": "2022-07-13T04:08:19.936Z",
+                                                "updated_at": "2022-07-13T04:08:19.936Z",
+                                                "comment": []
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Animals"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Cadastro de animal",
+                "description": "Essa rota será responsável por cadastrar um novo novo animal.",
+                "tags": ["Animals"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Animals"
+                            },
+                            "examples": {
+                                "Users": {
+                                    "value": {
+                                        "name": "THOR",
+                                        "breed": "rotivailer",
+                                        "species": "puddle",
+                                        "description": "teste teste teste teste teste",
+                                        "image": "outras",
+                                        "lastLocation": "casa wellington",
+                                        "lastDate": "11/05/20",
+                                        "found": false,
+                                        "userId": "a22b2e10-d0c7-4282-8886-ee3ac7f1123c"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Animals"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "400": {
+                        "description": "Fill in all fields"
+                    }
+                }
+            }
+        },
+        "/comments": {
+            "post": {
+                "summary": "Registrar comentário na publicação do animal",
+                "description": "Essa rota será responsável por registar um comentário na publicação do animal. Qualquer usuário logado consegue fazer um comentário. Verificação de token ativa",
+                "tags": ["Comments"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Comments"
+                            },
+                            "examples": {
+                                "Comments": {
+                                    "value": {
+                                        "userId": "a22b2e10-d0c7-4282-8886-ee3ac7f1123c",
+                                        "animalsId": "d3f9ab5b-d7da-4aa2-b4f0-466b49ac432f",
+                                        "comment": "outro comerntario outro comerntario outro comerntario outro comerntario"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Comments"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Users": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "contact": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UsersUpdate": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "contact": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UsersLogin": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Animals": {
+                "type": "object",
+                "properties": {
+                    "name": { "type": "string" },
+                    "breed": { "type": "string" },
+                    "species": { "type": "string" },
+                    "description": { "type": "string" },
+                    "image": { "type": "string" },
+                    "lastLocation": { "type": "string" },
+                    "lastDate": { "type": "string" },
+                    "found": { "type": "boolean" },
+                    "userId": { "type": "string" }
+                }
+            },
+            "Comments": {
+                "type": "object",
+                "properties": {
+                    "userId": {
+                        "type": "string"
+                    },
+                    "animalsId": {
+                        "type": "string"
+                    },
+                    "comment": {
+                        "type": "string"
+                    }
+                }
+            },
+            "securitySchemas2": {
+                "bearerAuth2": {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+            }
+        }
+    }
+}

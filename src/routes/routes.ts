@@ -5,6 +5,7 @@ import userDeleteController from "../controllers/users/userDelete.controller";
 import userListController from "../controllers/users/userList.controller";
 import userLoginController from "../controllers/users/userLogin.controller";
 import userUpdateController from "../controllers/users/userUpdate.controller";
+import verifyEmailMiddleware from "../middlewares/verifyEmail.middleware";
 
 import animalCreateController from "../controllers/animals/animalCreate.controller";
 import animalListController from "../controllers/animals/animalList.controller";
@@ -27,12 +28,13 @@ const router = Router();
 //USUÁRIO
 router.get("/users", userListController);
 router.get("/users/animals/:id", userAnimalsController);
-router.post("/users", verifyFieldsMiddleware, userCreateController);
+router.post("/users", verifyFieldsMiddleware, verifyEmailMiddleware , userCreateController);
 router.post("/users/login", userLoginController);
 router.patch(
   "/users/:id",
   verifyTokenMiddleware,
   verifyIdUserMiddleware,
+  verifyEmailMiddleware,
   userUpdateController
 );
 router.delete(

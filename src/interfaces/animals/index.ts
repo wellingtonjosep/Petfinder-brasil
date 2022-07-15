@@ -9,3 +9,7 @@ export interface IAnimals {
   lastDate: string;
   found: boolean;
 }
+export interface IAnimalsFound {
+  id: string;
+  found: boolean;
+}

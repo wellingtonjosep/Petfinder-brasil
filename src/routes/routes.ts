@@ -22,6 +22,7 @@ import verifyFieldsMiddleware from "../middlewares/verifyFields.middleware";
 import verifyFieldsAnimalsCreateMiddleware from "../middlewares/verifyFieldsAnimalsCreate.middleware";
 import verifyIdUserMiddleware from "../middlewares/verifyIdUser.middleware";
 import verifyTokenMiddleware from "../middlewares/verifyToken.middleware";
+import updateAnimalFoundController from "../controllers/animals/animalUpdateFound.controller";
 
 const router = Router();
 
@@ -55,9 +56,10 @@ router.patch("/animals/:id", updateAnimalController);
 router.get("/animals/lost", animalLostListController);
 router.get("/animals/found", animalsFoundListController);
 
+//COMENTÁRIOS
 router.get("/animals/comments/:id", findAnimalsCommentsController);
 
-//COMENTÁRIOS
+router.patch("/animals/found/:id", updateAnimalFoundController);
 router.post("/comments", verifyTokenMiddleware, commentsCreateController);
 
 export default router;

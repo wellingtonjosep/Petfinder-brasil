@@ -27,7 +27,11 @@ const findAnimalsCommentsService = async (id: string, comments: string) => {
     throw "not found comments";
   }
 
-  return { animal };
+  const animalNameComments = [
+    { name: animal.name, found: animal.found, comments: animal.comments },
+  ];
+
+  return animalNameComments;
 };
 
 export default findAnimalsCommentsService;

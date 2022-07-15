@@ -3,7 +3,6 @@ import { Animals } from "./animals.entities";
 import { Comments } from "./comments";
 import { v4 as uuid } from "uuid";
 
-
 @Entity()
 export class User {
   @PrimaryGeneratedColumn("uuid")

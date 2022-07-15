@@ -1,6 +1,6 @@
 import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { AppError } from "../../errors/appError";
 
@@ -15,7 +15,7 @@ const userLoginService = async (email: string, password: string) => {
     throw new AppError(404, "Account not found");
   }
 
-  if (!bcrypt.compareSync(password, account.password)) {
+  if (!bcryptjs.compareSync(password, account.password)) {
     throw new AppError(401, "Wrong email/password");
   }
 

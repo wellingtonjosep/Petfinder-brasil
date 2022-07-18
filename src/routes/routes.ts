@@ -55,11 +55,10 @@ router.post(
 router.patch("/animals/:id", updateAnimalController);
 router.get("/animals/lost", animalLostListController);
 router.get("/animals/found", animalsFoundListController);
-
-//COMENTÁRIOS
+router.patch("/animals/found/:id", updateAnimalFoundController);
 router.get("/animals/comments/:id", findAnimalsCommentsController);
 
-router.patch("/animals/found/:id", updateAnimalFoundController);
+//COMENTÁRIOS
 router.post("/comments", verifyTokenMiddleware, commentsCreateController);
 
 export default router;

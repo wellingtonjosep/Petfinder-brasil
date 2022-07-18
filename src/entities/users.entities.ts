@@ -15,6 +15,9 @@ export class User {
   email: string;
 
   @Column()
+  isAdm: boolean;
+
+  @Column()
   password: string;
 
   @Column()

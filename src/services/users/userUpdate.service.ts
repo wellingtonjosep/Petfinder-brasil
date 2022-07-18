@@ -2,14 +2,15 @@ import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
 import bcryptjs from "bcryptjs";
 import { AppError } from "../../errors/appError";
+import { IUserUpdate } from "../../interfaces/user";
 
-const userUpdateService = async (
-  id: string,
-  name: string,
-  email: string,
-  password: string,
-  contact: string
-) => {
+const userUpdateService = async ({
+  id,
+  name,
+  email,
+  contact,
+  password,
+}: IUserUpdate) => {
   const userRepository = AppDataSource.getRepository(User);
 
   const user = await userRepository.findOneBy({ id });
@@ -22,8 +23,10 @@ const userUpdateService = async (
     name: name || user.name,
     email: email || user.email,
     contact: contact || user.contact,
-    password: bcryptjs.hashSync(password, 10) || user.password,
+    password: user.password,
   };
+
+  password && (newUser.password = bcryptjs.hashSync(password, 10));
 
   await userRepository.update(user!.id, { ...newUser, updated_at: new Date() });
 

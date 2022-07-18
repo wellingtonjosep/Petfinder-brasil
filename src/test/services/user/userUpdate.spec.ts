@@ -49,8 +49,6 @@ describe("Teste para metodo PATCH em /users/:id", () => {
       .patch(`/users/${response1.body.id}`)
       .send(testUser2);
 
-    console.log(response1.body.id);
-
     const responseGet = await request(app).patch(`/users/${response1.body.id}`);
     expect(responsePatch.status).toEqual(200);
 

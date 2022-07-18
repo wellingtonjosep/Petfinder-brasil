@@ -12,9 +12,7 @@ import animalListController from "../controllers/animals/animalList.controller";
 import animalLostListController from "../controllers/animals/animalListLost.controller";
 import updateAnimalController from "../controllers/animals/animalUpdate.controller";
 import animalsFoundListController from "../controllers/animals/animalsListFound.controller";
-
 import userAnimalsController from "../controllers/users/userAnimals.controller";
-
 import commentsCreateController from "../controllers/comments/commentsCreate.controller";
 import findAnimalsCommentsController from "../controllers/animals/findAnimalsComments.controller";
 
@@ -22,14 +20,18 @@ import verifyFieldsMiddleware from "../middlewares/verifyFields.middleware";
 import verifyFieldsAnimalsCreateMiddleware from "../middlewares/verifyFieldsAnimalsCreate.middleware";
 import verifyIdUserMiddleware from "../middlewares/verifyIdUser.middleware";
 import verifyTokenMiddleware from "../middlewares/verifyToken.middleware";
-import updateAnimalFoundController from "../controllers/animals/animalUpdateFound.controller";
 
 const router = Router();
 
 //USUÁRIO
 router.get("/users", userListController);
 router.get("/users/animals/:id", userAnimalsController);
-router.post("/users", verifyFieldsMiddleware, verifyEmailMiddleware , userCreateController);
+router.post(
+  "/users",
+  verifyFieldsMiddleware,
+  verifyEmailMiddleware,
+  userCreateController
+);
 router.post("/users/login", userLoginController);
 router.patch(
   "/users/:id",
@@ -52,14 +54,13 @@ router.post(
   verifyFieldsAnimalsCreateMiddleware,
   animalCreateController
 );
-router.patch("/animals/:id", updateAnimalController);
 router.get("/animals/lost", animalLostListController);
 router.get("/animals/found", animalsFoundListController);
-
-//COMENTÁRIOS
 router.get("/animals/comments/:id", findAnimalsCommentsController);
 
-router.patch("/animals/found/:id", updateAnimalFoundController);
+router.patch("/animals/:id", updateAnimalController);
+
+//COMENTÁRIOS
 router.post("/comments", verifyTokenMiddleware, commentsCreateController);
 
 export default router;

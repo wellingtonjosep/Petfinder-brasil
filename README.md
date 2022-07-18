@@ -66,6 +66,7 @@ Recebido:
 ```
 PATCH /users/:id
 authentication: token do usuario
+params: id do usuario
 
 Enviado:
 {
@@ -80,6 +81,27 @@ Recebido:
 	"created_at": "2022-07-17T17:01:55.934Z",
 	"updated_at": "2022-07-17T17:02:10.934Z",
 	"id": "6c700f31-1c1c-4370-9b40-14ad3d9cd927"
+}
+```
+```
+POST /animals
+
+Enviado:
+{
+	"name": "exemplo",
+	"breed": "exemplo",
+	"species": "exemplo",
+	"description": "exemplo",
+	"image": "https://exemplo.com",
+	"lastLocation": "exemplo",
+	"lastDate": "01/01/2001",
+	"found": false,
+	"userId": "(id do usuario)"
+}
+
+Recebido: 
+{
+	"message": "User deleted"
 }
 ```
 ```

@@ -1,11 +1,20 @@
 import { AppDataSource } from "../../data-source";
 import { Animals } from "../../entities/animals.entities";
 import { Comments } from "../../entities/comments";
+import { AppError } from "../../errors/appError";
 
 const findAnimalsCommentsService = async (id: string, comments: string) => {
   const animalRepository = AppDataSource.getRepository(Animals);
   const commentsRepository = AppDataSource.getRepository(Comments);
 
+  const animals = await animalRepository.find()
+
+  const animalExist = animals.find((element) => element.id === id)
+
+  if (!animalExist) {
+    throw new AppError(404, "Animal not exist");
+  }
+  
   const comment = await commentsRepository.findOne({
     where: {
       id: comments,

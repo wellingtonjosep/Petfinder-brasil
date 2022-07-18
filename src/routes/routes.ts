@@ -65,8 +65,6 @@ router.get("/animals/lost", animalLostListController);
 router.get("/animals/found", animalsFoundListController);
 router.get("/animals/comments/:id", findAnimalsCommentsController);
 
-router.patch("/animals/:id", updateAnimalController);
-
 //COMENTÁRIOS
 router.post("/comments", verifyTokenMiddleware, commentsCreateController);
 

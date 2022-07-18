@@ -12,6 +12,7 @@ import animalListController from "../controllers/animals/animalList.controller";
 import animalLostListController from "../controllers/animals/animalListLost.controller";
 import updateAnimalController from "../controllers/animals/animalUpdate.controller";
 import animalsFoundListController from "../controllers/animals/animalsListFound.controller";
+
 import userAnimalsController from "../controllers/users/userAnimals.controller";
 import commentsCreateController from "../controllers/comments/commentsCreate.controller";
 import findAnimalsCommentsController from "../controllers/animals/findAnimalsComments.controller";
@@ -20,11 +21,17 @@ import verifyFieldsMiddleware from "../middlewares/verifyFields.middleware";
 import verifyFieldsAnimalsCreateMiddleware from "../middlewares/verifyFieldsAnimalsCreate.middleware";
 import verifyIdUserMiddleware from "../middlewares/verifyIdUser.middleware";
 import verifyTokenMiddleware from "../middlewares/verifyToken.middleware";
+import verifyIsAdmMiddleware from "../middlewares/verifyIsAdm.middleware";
 
 const router = Router();
 
 //USUÁRIO
-router.get("/users", userListController);
+router.get(
+  "/users",
+  verifyTokenMiddleware,
+  verifyIsAdmMiddleware,
+  userListController
+);
 router.get("/users/animals/:id", userAnimalsController);
 router.post(
   "/users",

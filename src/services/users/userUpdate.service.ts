@@ -23,6 +23,7 @@ const userUpdateService = async ({
     name: name || user.name,
     email: email || user.email,
     contact: contact || user.contact,
+    isAdm: user.isAdm,
     password: user.password,
   };
 

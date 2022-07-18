@@ -41,7 +41,7 @@ const animalCreateService = async (
 
   await animalsRepository.save(animal);
 
-  return { ...animal, user: animal.user.id };
+  return { ...animal, userId: animal.user.id, user: undefined };
 };
 
 export default animalCreateService;

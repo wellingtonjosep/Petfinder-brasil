@@ -17,11 +17,9 @@ const animalCreateService = async (
   const animalsRepository = AppDataSource.getRepository(Animals);
   const userRepository = AppDataSource.getRepository(User);
 
-  const user = await userRepository.findOne({
-    where: {
-      id: userId,
-    },
-  });
+  const users = await userRepository.find()
+
+  const user = users.find((element) => element.id === userId )
 
   if (!user) {
     throw new AppError(404, "user not exist");

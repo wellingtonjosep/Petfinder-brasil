@@ -4,3 +4,11 @@ export interface IUser {
   email: string;
   password: string;
 }
+
+export interface IUserUpdate {
+  id: string;
+  name?: string;
+  email?: string;
+  contact?: string;
+  password: string;
+}

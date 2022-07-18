@@ -14,18 +14,13 @@ const commentsCreateService = async (
   const animalsRepository = AppDataSource.getRepository(Animals);
   const commentsRepository = AppDataSource.getRepository(Comments);
 
-  const user = await userRepository.findOne({
-    where: {
-      id: userId,
-    },
-  });
+  const users = await userRepository.find()
 
-  const animal = await animalsRepository.findOne({
-    where: {
-      id: animalsId,
-    },
-    relations: ["comments"],
-  });
+  const user = users.find((element) => element.id === userId )
+
+  const animals = await animalsRepository.find()
+
+  const animal = animals.find((element) => element.id === animalsId)
 
   if (!user || !animal) {
     throw new AppError(404, "user or animals not exist");
@@ -50,11 +45,7 @@ const commentsCreateService = async (
     await animalsRepository.save({ ...animal, comments: [newComment] }, {});
   }
 
-  const { animal: animalReturn } = newComment;
-
-  const { comments } = animalReturn;
-
-  return { ...newComment, user: undefined, animal: undefined };
+  return { ...newComment, user: undefined, animal: animal.id };
 };
 
 export default commentsCreateService;

@@ -14,6 +14,7 @@ const verifyTokenMiddleware = (
       process.env.JWT_SECRET as string,
       (err: any, decoded: any) => {
         req.userId = decoded.id;
+        req.isAdm = decoded.isAdm;
         next();
       }
     );

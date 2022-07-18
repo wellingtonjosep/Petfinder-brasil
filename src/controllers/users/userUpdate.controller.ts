@@ -1,22 +1,28 @@
-import userUpdateService from "../../services/users/userUpdate.service"
-import { Request, Response } from "express"
-import { AppError, handleError } from "../../errors/appError"
+import userUpdateService from "../../services/users/userUpdate.service";
+import { Request, Response } from "express";
+import { AppError, handleError } from "../../errors/appError";
+import { IUserUpdate } from "../../interfaces/user";
 
 const userUpdateController = async (req: Request, res: Response) => {
-    try {
+  try {
+    const { id } = req.params;
 
-        const { name, email, password, contact } = req.body
+    const { name, email, password, contact }: IUserUpdate = req.body;
 
-        const { id } = req.params
+    const response = await userUpdateService({
+      id,
+      name,
+      email,
+      password,
+      contact,
+    });
 
-        const response = await userUpdateService(id, name, email, password, contact)
+    return res.status(200).json(response);
+  } catch (err) {
+    if (err instanceof AppError) {
+      handleError(err, res);
+    }
+  }
+};
 
-        return res.status(200).json(response)
-    } catch (err) {
-        if (err instanceof AppError) {
-          handleError(err, res);
-        }
-      }
-}
-
-export default userUpdateController
+export default userUpdateController;

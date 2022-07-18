@@ -84,6 +84,15 @@ Recebido:
 }
 ```
 ```
+DELETE /users/:id
+authentication: token do usuario
+
+Recebido: 
+{
+	"message": "User deleted"
+}
+```
+```
 POST /animals
 
 Enviado:
@@ -101,16 +110,18 @@ Enviado:
 
 Recebido: 
 {
-	"message": "User deleted"
-}
-```
-```
-DELETE /animals/:id
-authentication: token do usuario
-
-Recebido: 
-{
-	"message": "User deleted"
+	"name": "exemplo",
+	"breed": "exemplo",
+	"species": "exemplo",
+	"description": "exemplo",
+	"image": "https://exemplo.com",
+	"lastLocation": "exemplo",
+	"lastDate": "01/01/2001",
+	"found": false,
+	"created_at": "2022-07-18T16:30:44.726Z",
+	"updated_at": "2022-07-18T16:30:44.726Z",
+	"id": "ca97c129-82c8-44bb-af02-88b3b8bedad8"
+	"userId": "(id usuario)",
 }
 ```
 

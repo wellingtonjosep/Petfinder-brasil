@@ -1,6 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 
-const verifyFieldsMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const verifyFieldsMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const { name, email, password, isAdm } = req.body;
 
   if (!name || !email || !password) {

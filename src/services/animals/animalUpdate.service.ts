@@ -21,6 +21,7 @@ const animalUpdateService = async ({
   if (!animal) {
     throw new AppError(404, "Animal not found!");
   }
+
   const newAnimal = {
     name: name || animal.name,
     breed: breed || animal.breed,
@@ -31,12 +32,13 @@ const animalUpdateService = async ({
     lastDate: lastDate || animal.lastDate,
     found: found || animal.found,
   };
+
   await animalRepository.update(animal!.id, {
     ...newAnimal,
     updated_at: new Date(),
   });
 
-  return { ...animal };
+  return { ...newAnimal, updated_at: animal.updated_at, created_at: animal.created_at, id: animal.id };
 };
 
 export default animalUpdateService;

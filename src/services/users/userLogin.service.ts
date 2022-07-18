@@ -12,7 +12,7 @@ const userLoginService = async (email: string, password: string) => {
   const account = users.find((user) => user.email === email);
 
   if (!account) {
-    throw new AppError(404, "Account not found");
+    throw new AppError(401, "Wrong email/password");
   }
 
   if (!bcryptjs.compareSync(password, account.password)) {

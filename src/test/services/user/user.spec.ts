@@ -9,6 +9,22 @@ import userListService from "../../../services/users/userList.service";
 describe("Create an user", () => {
   let connection: DataSource;
 
+  const userTest1 = {
+    name: "test",
+    email: "test@email.com",
+    contact: "9999-9999",
+    isAdm: true,
+    password: "12345"
+  };
+
+  const userTest2 = {
+    name: "test2",
+    email: "test2@email.com",
+    contact: "9999-9999",
+    isAdm: false,
+    password: "12345"
+  };
+
   beforeAll(async () => {
     await AppDataSource.initialize()
       .then((res) => (connection = res))
@@ -28,7 +44,7 @@ describe("Create an user", () => {
     const password = "12345";
     const contact = "9999-9999";
 
-    const newUser = await userCreateService(name, email, contact, password);
+    const newUser = await userCreateService(userTest1)
 
     expect(newUser).toHaveProperty("id");
     expect(newUser.name).toBe("test");
@@ -45,7 +61,7 @@ describe("Create an user", () => {
       const password = "12345";
       const contact = "9999-9999";
 
-      const newUser = await userCreateService(name, email, contact, password);
+      const newUser = await userCreateService(userTest1);
     } catch (error) {
       if (error instanceof AppError) {
         expect(error.message).toBe("Email already exists");

@@ -13,6 +13,10 @@ export interface IUserCreate {
   password: string;
 }
 
+export interface IUserConfirm extends IUserUpdate {
+  email_confirm: boolean;
+}
+
 export interface IUserUpdate {
   id: string;
   name?: string;

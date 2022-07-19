@@ -22,6 +22,8 @@ import verifyFieldsAnimalsCreateMiddleware from "../middlewares/verifyFieldsAnim
 import verifyIdUserMiddleware from "../middlewares/verifyIdUser.middleware";
 import verifyTokenMiddleware from "../middlewares/verifyToken.middleware";
 import verifyIsAdmMiddleware from "../middlewares/verifyIsAdm.middleware";
+import confirmEmailMiddleware from "../middlewares/confirmEmail.middleware";
+import userConfirmController from "../controllers/users/userConfirm.controller";
 
 const router = Router();
 
@@ -39,7 +41,7 @@ router.post(
   verifyEmailMiddleware,
   userCreateController
 );
-router.post("/users/login", userLoginController);
+router.post("/users/login", confirmEmailMiddleware, userLoginController);
 router.patch(
   "/users/:id",
   verifyTokenMiddleware,
@@ -53,6 +55,9 @@ router.delete(
   verifyIdUserMiddleware,
   userDeleteController
 );
+
+//VERIFY
+router.get("/users/verify/:id", userConfirmController);
 
 //ANIMAIS
 router.get("/animals", animalListController);

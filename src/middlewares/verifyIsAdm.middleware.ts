@@ -7,6 +7,8 @@ const verifyIsAdmMiddleware = async (
 ) => {
   const isAdm = req.isAdm;
 
+  console.log(isAdm);
+
   if (!isAdm) {
     return res.status(401).json({ message: "you're not admin" });
   }

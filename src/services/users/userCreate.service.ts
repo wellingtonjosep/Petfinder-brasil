@@ -2,6 +2,7 @@ import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
 import bcryptjs from "bcryptjs";
 import { IUserCreate } from "../../interfaces/user";
+import { Request, Response } from "express";
 
 const userCreateService = async ({
   name,
@@ -39,14 +40,17 @@ const userCreateService = async ({
     from: "capstone.kenzie@gmail.com",
     to: user.email,
     subject: "SEJA BEM-VINDO PET.FINDER",
-    text: `Ola, ${user.name}. Bem vindo ao PetFinder`,
+    html: `<h2>Ola, ${user.name}.</h2> 
+    <p>Bem vindo ao <strong>PetFinder</strong></p>
+    <p><strong>Clique no link para confirmar seu email</strong></p>
+    <a href="http://localhost:3001/users/verify/${user.id}"> Click Here  </a>`,
   };
 
   transport.sendMail(details, (err: string) => {
     if (err) {
       console.error(err);
     } else {
-      console.log("email send");
+      console.log("verification email is sent to yous gmail account");
     }
   });
 

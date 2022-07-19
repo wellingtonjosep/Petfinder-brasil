@@ -4,69 +4,71 @@ import userUpdateService from "../../../services/users/userUpdate.service";
 import app from "../../../app";
 import request from "supertest";
 
-describe("Teste para metodo PATCH em /users/:id", () => {
-  let connection: DataSource;
+const userAdm = {
+  name: "Teste",
+  email: "teste@kenzie.com",
+  password: "123456",
+  isAdm: true,
+};
 
-  interface User {
-    name: string;
-    email: string;
-    password?: string;
-    contact: string;
-  }
+const loginAdm = {
+  email: "teste@kenzie.com",
+  password: "123456",
+};
 
-  let testUser1: User = {
-    name: "Teste Kenzie",
-    email: "teste@kenzie.com",
-    password: "123456Ab!",
-    contact: "teste@kenzie.com",
-  };
+const userNotAdm = {
+  name: "Teste2",
+  email: "teste2@kenzie.com",
+  password: "123456",
+  isAdm: false,
+};
 
-  let testUser2: User = {
-    name: "Teste2 Kenzie",
-    email: "teste2@kenzie.com",
-    password: "123456Ab!",
-    contact: "teste2@kenzie.com",
-  };
+const loginNotAdm = {
+  email: "teste2@kenzie.com",
+  password: "123456",
+};
+const updateNotAdm = {
+  name: "Teste2 Kenzie ",
+  email: "teste2@kenzie.com",
+};
 
-  let response1: any;
+const updateAdm = {
+  name: "Teste Kenzie",
+  email: "teste@kenzie.com",
+};
 
-  beforeAll(async () => {
-    await AppDataSource.initialize()
-      .then((res) => (connection = res))
-      .catch((err) => {
-        console.error("Error during Data Source initialization", err);
-      });
+describe("Testing route PATCH /users/<uuid>", () => {
+  it("Testing tokenless refresh", async () => {
+    const login = await request(app).post("/login").send(loginNotAdm);
+    const { token } = login.body;
+    const user = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${token}`);
 
-    response1 = await request(app).post("/users").send(testUser1);
+    const response = await request(app)
+      .patch(`/users/${user.body.uuid}`)
+      .send(updateNotAdm);
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message", "Invalid Token");
   });
 
-  afterAll(async () => {
-    await connection.destroy();
-  });
+  it("Testing another user's update without admin permission", async () => {
+    const signinNotAdm = await request(app).post("/login").send(loginNotAdm);
+    const signinAdm = await request(app).post("/login").send(loginAdm);
+    const tokenNotAdm = signinNotAdm.body.token;
+    const tokenAdm = signinAdm.body.token;
 
-  test("Trying to update an user", async () => {
-    const responsePatch = await request(app)
-      .patch(`/users/${response1.body.id}`)
-      .send(testUser2);
+    const adm = await request(app)
+      .get("/users/profile")
+      .set("Authorization", `Bearer ${tokenAdm}`);
 
-    const responseGet = await request(app).patch(`/users/${response1.body.id}`);
-    expect(responsePatch.status).toEqual(200);
+    const response = await request(app)
+      .patch(`/users/${adm.body.uuid}`)
+      .send(updateAdm)
+      .set("Authorization", `Bearer ${tokenNotAdm}`);
 
-    expect(responseGet.body).toEqual(
-      expect.objectContaining({
-        id: responseGet.body.id,
-        name: testUser2.name,
-        email: testUser2.email,
-        age: testUser2.contact,
-        created_at: responseGet.body.created_at,
-        updated_at: responseGet.body.updated_at,
-      })
-    );
-  });
-
-  test("Trying to update a user that doesn't exist", async () => {
-    const response = await request(app).get(`/users/1`);
-
-    expect(response.status).toEqual(404);
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty("message", "Invalid Token");
   });
 });

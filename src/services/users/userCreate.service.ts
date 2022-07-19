@@ -11,6 +11,17 @@ const userCreateService = async ({
   password,
 }: IUserCreate) => {
   const userRepository = AppDataSource.getRepository(User);
+  const nodemailer = require("nodemailer");
+
+  //transporter
+  const transport = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    auth: {
+      user: "capstone.kenzie@gmail.com",
+      pass: "rvenhglyrpyfwfrv",
+    },
+  });
 
   const user = new User();
   user.name = name;
@@ -23,6 +34,21 @@ const userCreateService = async ({
 
   userRepository.create(user);
   await userRepository.save(user);
+
+  let details = {
+    from: "capstone.kenzie@gmail.com",
+    to: user.email,
+    subject: "SEJA BEM-VINDO PET.FINDER",
+    text: `Ola, ${user.name}. Bem vindo ao PetFinder`,
+  };
+
+  transport.sendMail(details, (err: string) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("email send");
+    }
+  });
 
   return { ...user, password: undefined };
 };

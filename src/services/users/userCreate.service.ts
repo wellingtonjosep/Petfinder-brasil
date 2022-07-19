@@ -12,6 +12,8 @@ const userCreateService = async ({
   password,
 }: IUserCreate) => {
   const userRepository = AppDataSource.getRepository(User);
+
+  //disparador de emails
   const nodemailer = require("nodemailer");
 
   //transporter
@@ -36,7 +38,16 @@ const userCreateService = async ({
   userRepository.create(user);
   await userRepository.save(user);
 
+  //gerando corpo do email
   let details = {
+    from: "capstone.kenzie@gmail.com",
+    to: user.email,
+    subject: "SEJA BEM-VINDO PET.FINDER",
+    html: `<h2>Ola, ${user.name}.</h2> 
+    <p>Bem vindo ao <strong>PetFinder</strong></p>
+    <p><strong>ADORAMOS QUE VOCÊ ESTEJA FAZENDO PARTE DO NOSSO TIME!</strong></p>`,
+  };
+  let details2 = {
     from: "capstone.kenzie@gmail.com",
     to: user.email,
     subject: "SEJA BEM-VINDO PET.FINDER",
@@ -46,11 +57,19 @@ const userCreateService = async ({
     <a href="http://localhost:3001/users/verify/${user.id}"> Click Here  </a>`,
   };
 
-  transport.sendMail(details, (err: string) => {
+  transport.sendMail(details2, (err: string) => {
     if (err) {
       console.error(err);
     } else {
       console.log("verification email is sent to yous gmail account");
+    }
+  });
+
+  transport.sendMail(details, (err: string) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("welcome new user");
     }
   });
 

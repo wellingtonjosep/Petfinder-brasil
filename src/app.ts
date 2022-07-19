@@ -1,8 +1,6 @@
-import express, { Request, Response, NextFunction } from "express";
-
+import express, { Request, Response, NextFunction, request } from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocs from "./swagger.json";
-
 import { AppError } from "./errors/appError";
 import router from "./routes/routes";
 
@@ -21,8 +19,6 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
       message: err.message,
     });
   }
-
-  console.error(err);
   return response.status(500).json({
     status: "error",
     message: "Internal server error",

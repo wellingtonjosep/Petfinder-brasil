@@ -2,26 +2,19 @@ import { Request, Response, NextFunction } from "express";
 import { AppDataSource } from "../data-source";
 import { User } from "../entities/users.entities";
 
-const verifyEmailMiddleware = async (
+const confirmEmailMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   const userRepository = AppDataSource.getRepository(User);
-
   const users = await userRepository.find();
+  const verified = users.find((user) => user.email_confirm === true);
 
-  const { email } = req.body;
-
-  const emailExists = users.find((element) => element.email === email);
-
-  if (emailExists) {
-    return res.status(401).json({
-      message: "Email already exists",
-    });
+  if (!verified) {
+    return res.status(401).json({ message: "email not verified" });
   }
-
   next();
 };
 
-export default verifyEmailMiddleware;
+export default confirmEmailMiddleware;

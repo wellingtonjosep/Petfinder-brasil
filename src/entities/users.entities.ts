@@ -29,6 +29,9 @@ export class User {
   @Column()
   updated_at: Date;
 
+  @Column({ default: false })
+  email_confirm: boolean;
+
   @OneToMany((type) => Animals, (animal) => animal.user, {
     onDelete: "CASCADE",
     eager: true,

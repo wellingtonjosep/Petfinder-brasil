@@ -2,7 +2,6 @@ import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
 import bcryptjs from "bcryptjs";
 import { IUserCreate } from "../../interfaces/user";
-import { Request, Response } from "express";
 
 const userCreateService = async ({
   name,
@@ -16,6 +15,7 @@ const userCreateService = async ({
   //disparador de emails
   const nodemailer = require("nodemailer");
 
+  console.log(nodemailer);
   //transporter
   const transport = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -54,7 +54,7 @@ const userCreateService = async ({
     html: `<h2>Ola, ${user.name}.</h2> 
     <p>Bem vindo ao <strong>PetFinder</strong></p>
     <p><strong>Clique no link para confirmar seu email</strong></p>
-    <a href="http://localhost:3001/users/verify/${user.id}"> Click Here  </a>`,
+    <a href="http://localhost:3001/users/verify/${user.id}"> Click Here </a>`,
   };
 
   transport.sendMail(details2, (err: string) => {

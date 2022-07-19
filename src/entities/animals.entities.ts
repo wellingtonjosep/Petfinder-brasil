@@ -50,7 +50,9 @@ export class Animals {
   })
   user: User;
 
-  @ManyToMany(() => Comments)
+  @ManyToMany(() => Comments, {
+    eager: true,
+  })
   @JoinTable()
   comments: Comments[];
 }

@@ -2,6 +2,7 @@ import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
 import bcryptjs from "bcryptjs";
 import { IUserCreate } from "../../interfaces/user";
+import { Request, Response } from "express";
 
 const userCreateService = async ({
   name,
@@ -11,8 +12,10 @@ const userCreateService = async ({
   password,
 }: IUserCreate) => {
   const userRepository = AppDataSource.getRepository(User);
-  const nodemailer = require("nodemailer");
 
+  //disparador de emails
+  const nodemailer = require("nodemailer");
+  
   //transporter
   const transport = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -31,22 +34,43 @@ const userCreateService = async ({
   user.password = bcryptjs.hashSync(password, 10);
   user.created_at = new Date();
   user.updated_at = new Date();
-
   userRepository.create(user);
   await userRepository.save(user);
 
+  console.log(user)
+
+  //gerando corpo do email
   let details = {
     from: "capstone.kenzie@gmail.com",
     to: user.email,
     subject: "SEJA BEM-VINDO PET.FINDER",
-    text: `Ola, ${user.name}. Bem vindo ao PetFinder`,
+    html: `<h2>Ola, ${user.name}.</h2> 
+    <p>Bem vindo ao <strong>PetFinder</strong></p>
+    <p><strong>ADORAMOS QUE VOCÊ ESTEJA FAZENDO PARTE DO NOSSO TIME!</strong></p>`,
   };
+  let details2 = {
+    from: "capstone.kenzie@gmail.com",
+    to: user.email,
+    subject: "SEJA BEM-VINDO PET.FINDER",
+    html: `<h2>Ola, ${user.name}.</h2> 
+    <p>Bem vindo ao <strong>PetFinder</strong></p>
+    <p><strong>Clique no link para confirmar seu email</strong></p>
+    <a href="http://localhost:3001/users/verify/${user.id}"> Click Here  </a>`,
+  };
+
+  transport.sendMail(details2, (err: string) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log("verification email is sent to yous gmail account");
+    }
+  });
 
   transport.sendMail(details, (err: string) => {
     if (err) {
       console.error(err);
     } else {
-      console.log("email send");
+      console.log("welcome new user");
     }
   });
 

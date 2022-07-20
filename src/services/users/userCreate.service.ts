@@ -2,6 +2,7 @@ import { AppDataSource } from "../../data-source";
 import { User } from "../../entities/users.entities";
 import bcryptjs from "bcryptjs";
 import { IUserCreate } from "../../interfaces/user";
+import nodemailer from 'nodemailer'
 
 const userCreateService = async ({
   name,
@@ -13,10 +14,10 @@ const userCreateService = async ({
   const userRepository = AppDataSource.getRepository(User);
 
   //disparador de emails
-  const nodemailer = require("nodemailer");
+  const reqnodemailer = nodemailer
 
   //transporter
-  const transport = nodemailer.createTransport({
+  const transport = reqnodemailer.createTransport({
     host: "smtp.gmail.com",
     port: 587,
     auth: {
@@ -35,8 +36,6 @@ const userCreateService = async ({
   user.updated_at = new Date();
   userRepository.create(user);
   await userRepository.save(user);
-
-  console.log(user)
 
   //gerando corpo do email
   let details = {
@@ -57,7 +56,7 @@ const userCreateService = async ({
     <a href="http://localhost:3001/users/verify/${user.id}"> Click Here </a>`,
   };
 
-  transport.sendMail(details2, (err: string) => {
+  transport.sendMail(details2, (err) => {
     if (err) {
       console.error(err);
     } else {
@@ -65,7 +64,7 @@ const userCreateService = async ({
     }
   });
 
-  transport.sendMail(details, (err: string) => {
+  transport.sendMail(details, (err) => {
     if (err) {
       console.error(err);
     } else {

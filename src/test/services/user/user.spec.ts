@@ -6,24 +6,32 @@ import { AppError } from "../../../errors/appError";
 import userLoginService from "../../../services/users/userLogin.service";
 import userListService from "../../../services/users/userList.service";
 
+import request from "supertest";
+import app from "../../../app";
+
 describe("Create an user", () => {
   let connection: DataSource;
 
   const userTest1 = {
     name: "test",
     email: "test@email.com",
+    password: "12345",
     contact: "9999-9999",
-    isAdm: true,
-    password: "12345"
+    isAdm: true
   };
 
   const userTest2 = {
-    name: "test2",
+    name: "test 2",
     email: "test2@email.com",
+    password: "12345",
     contact: "9999-9999",
-    isAdm: false,
-    password: "12345"
+    isAdm: false
   };
+
+  const test1Login = {
+    email: "test@email.com",
+    password: "12345"
+  }
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -37,42 +45,57 @@ describe("Create an user", () => {
     await connection.destroy(); //fechar conexão com banco de
   });
 
+  it("Should insert the information of new user in the database", async () => {
+    const response = await request(app).post("/users").send(userTest1);
 
-  test("Should insert the information of new user in the database", async () => {
-    const name = "test";
-    const email = "test@email.com";
-    const password = "12345";
-    const contact = "9999-9999";
-    const isAdm = true;
-
-    const newUser = await userCreateService({name, email, password, contact, isAdm});
-
-    expect(newUser).toHaveProperty("id");
-    expect(newUser.name).toBe("test");
-    expect(newUser.email).toBe("test@email.com");
-    expect(newUser.password).not.toBe("12345");
-    expect(newUser).toHaveProperty("contact");
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty("name");
+    expect(response.body).toHaveProperty("email");
+    expect(response.body).toHaveProperty("created_at");
+    expect(response.body).toHaveProperty("updated_at");
+    expect(response.body).toHaveProperty("isAdm");
+    expect(response.body).not.toHaveProperty("password");
   });
 
 
-  test("Testing user creation with already used email", async () => {
+  it("Testing user creation with already used email", async () => {
     try {
-      const name = "test";
-      const email = "test@email.com";
-      const password = "12345";
-      const contact = "9999-9999";
-      const isAdm = true
+      const response = await request(app).post("/users").send(userTest1);
 
-      const newUser = await userCreateService({name, email, contact, isAdm, password});
+      expect(response.status).toBe(401);
+      expect(response.body).toHaveProperty("Email already exists");
+
     } catch (error) {
       if (error instanceof AppError) {
-        expect(error.message).toBe("Email already exists");
+        expect(error.message).toBe("Wrong email/password");
+        expect(error.statusCode).toBe(401);
       }
     }
   });
 
+  it("Testing valid login", async () => {
+    const newUser = await request(app).post("/users").send(userTest1);
+    const { id } = newUser.body.id
 
-  test("Testing valid login", async () => {
+    const response = await request(app).get(`/users/verify/${id}`).send(test1Login);
+    console.log('response', response.body)
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("token");
+    expect(typeof response.body.token).toBe("string");
+  });
+
+
+  it("Testing valid login", async () => {
+    const response = await request(app).post("/users/login").send(test1Login);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("token");
+    expect(typeof response.body.token).toBe("string");
+  });
+
+
+  /* test("Testing valid login", async () => {
     const email = "test@email.com";
     const password = "12345";
 
@@ -117,6 +140,6 @@ describe("Create an user", () => {
   test("Testing user listing", async () => {
     const response = await userListService()
 
-    expect(response).toHaveLength(0)
-  });
+    expect(response).toHaveLength(2)
+  }); */
 });

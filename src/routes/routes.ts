@@ -28,49 +28,25 @@ import userConfirmController from "../controllers/users/userConfirm.controller";
 const router = Router();
 
 //USUÁRIO
-router.get(
-  "/users",
-  verifyTokenMiddleware,
-  verifyIsAdmMiddleware,
-  userListController
-);
+router.get("/users", verifyTokenMiddleware, verifyIsAdmMiddleware, userListController);
 router.get("/users/animals/:id", userAnimalsController);
-router.post(
-  "/users",
-  verifyFieldsMiddleware,
-  verifyEmailMiddleware,
-  userCreateController
+router.post("/users", verifyFieldsMiddleware, verifyEmailMiddleware, userCreateController
 );
 router.post("/users/login", confirmEmailMiddleware, userLoginController);
-router.patch(
-  "/users/:id",
-  verifyTokenMiddleware,
-  verifyIdUserMiddleware,
-  verifyEmailMiddleware,
-  userUpdateController
+router.patch("/users/:id", verifyTokenMiddleware, verifyIdUserMiddleware, verifyEmailMiddleware, userUpdateController
 );
-router.delete(
-  "/users/:id",
-  verifyTokenMiddleware,
-  verifyIdUserMiddleware,
-  userDeleteController
-);
+router.delete("/users/:id", verifyTokenMiddleware, verifyIdUserMiddleware, userDeleteController);
 
 //VERIFY
 router.get("/users/verify/:id", userConfirmController);
 
 //ANIMAIS
 router.get("/animals", animalListController);
-router.post(
-  "/animals",
-  verifyFieldsAnimalsCreateMiddleware,
-  animalCreateController
-);
+router.post("/animals", verifyFieldsAnimalsCreateMiddleware, animalCreateController);
 router.patch("/animals/:id", verifyTokenMiddleware, updateAnimalController)
 router.get("/animals/lost", animalLostListController);
 router.get("/animals/found", animalsFoundListController);
 router.get("/animals/comments/:id", findAnimalsCommentsController);
-
 router.patch("/animals/:id", verifyTokenMiddleware, updateAnimalController);
 
 //COMENTÁRIOS

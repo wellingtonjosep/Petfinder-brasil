@@ -32,6 +32,7 @@ const commentsCreateService = async (
     comment,
     userName: user.name,
     created_at: new Date(),
+    id: undefined,
   });
 
   await commentsRepository.save(newComment);
@@ -45,7 +46,11 @@ const commentsCreateService = async (
     await animalsRepository.save({ ...animal, comments: [newComment] }, {});
   }
 
-  return { ...newComment, user: undefined, animal: animal.id };
+  const { animal: animalReturn } = newComment;
+
+  const { comments } = animalReturn; //retorna todos comentários do animal
+
+  return { ...newComment, user: undefined, animal: undefined, id: undefined };
 };
 
 export default commentsCreateService;

@@ -17,7 +17,7 @@ const verifyEmailMiddleware = async (
 
   if (emailExists) {
     return res.status(401).json({
-      message: "Email already exists",
+      message: "E-mail already registered",
     });
   }
 

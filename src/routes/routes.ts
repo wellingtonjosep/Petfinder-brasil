@@ -33,9 +33,8 @@ router.get("/users/animals/:id", userAnimalsController);
 router.post("/users", verifyFieldsMiddleware, verifyEmailMiddleware, userCreateController
 );
 router.post("/users/login", confirmEmailMiddleware, userLoginController);
-router.patch("/users/:id", verifyTokenMiddleware, verifyIdUserMiddleware, verifyEmailMiddleware, userUpdateController
-);
-router.delete("/users/:id", verifyTokenMiddleware, verifyIdUserMiddleware, userDeleteController);
+router.patch("/users/:id", verifyTokenMiddleware, verifyIdUserMiddleware, verifyEmailMiddleware, userUpdateController);
+router.delete("/users/:id", verifyTokenMiddleware, userDeleteController);
 
 //VERIFY
 router.get("/users/verify/:id", userConfirmController);

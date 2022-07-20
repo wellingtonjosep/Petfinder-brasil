@@ -6,7 +6,9 @@ const userDeleteController = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
 
-    const response = await userDeleteService(id);
+    const idUser = req.userId
+
+    const response = await userDeleteService(id, idUser);
 
     return res.status(200).json({
       message: "User deleted",

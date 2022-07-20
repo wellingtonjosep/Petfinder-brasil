@@ -12,6 +12,7 @@ describe("Teste para metodo PATCH em /users/:id", () => {
     email: string;
     password?: string;
     contact: string;
+    isAdm?: boolean
   }
 
   let testUser1: User = {
@@ -19,6 +20,7 @@ describe("Teste para metodo PATCH em /users/:id", () => {
     email: "teste@kenzie.com",
     password: "123456Ab!",
     contact: "teste@kenzie.com",
+    isAdm: true
   };
 
   let testUser2: User = {
@@ -29,6 +31,7 @@ describe("Teste para metodo PATCH em /users/:id", () => {
   };
 
   let response1: any;
+  let validEmail: any;
 
   beforeAll(async () => {
     await AppDataSource.initialize()
@@ -38,30 +41,29 @@ describe("Teste para metodo PATCH em /users/:id", () => {
       });
 
     response1 = await request(app).post("/users").send(testUser1);
+    validEmail = await request(app).get(`/users/verify/${response1.body.id}`)
   });
 
   afterAll(async () => {
     await connection.destroy();
   });
 
+
   test("Trying to update an user", async () => {
-    const responsePatch = await request(app)
-      .patch(`/users/${response1.body.id}`)
-      .send(testUser2);
+    const userLogin = {
+      email: testUser1.email,
+      password: testUser1.password
+    }
 
-    const responseGet = await request(app).patch(`/users/${response1.body.id}`);
+    const login = await request(app).post("/users/login").send(userLogin)
+    const { token } = login.body
+
+    const responsePatch = await request(app).patch(`/users/${response1.body.id}`).send(testUser2).set("Authorization", `Bearer ${token}`);
+
+    const responseGet = await request(app).patch(`/users/${response1.body.id}`).set("Authorization", `Bearer ${token}`);
+    
     expect(responsePatch.status).toEqual(200);
-
-    expect(responseGet.body).toEqual(
-      expect.objectContaining({
-        id: responseGet.body.id,
-        name: testUser2.name,
-        email: testUser2.email,
-        age: testUser2.contact,
-        created_at: responseGet.body.created_at,
-        updated_at: responseGet.body.updated_at,
-      })
-    );
+    expect(responseGet.statusCode).toBe(200);
   });
 
   test("Trying to update a user that doesn't exist", async () => {

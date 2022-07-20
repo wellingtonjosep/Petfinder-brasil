@@ -25,12 +25,22 @@ describe("Create an user", () => {
     email: "test2@email.com",
     password: "12345",
     contact: "9999-9999",
-    isAdm: false
+    isAdm: true
   };
 
   const test1Login = {
     email: "test@email.com",
     password: "12345"
+  }
+
+  const test2Login = {
+    email: "test2@email.com",
+    password: "12345"
+  }
+
+  const ErroLogin = {
+    email: "test@email.com",
+    password: "123456"
   }
 
   beforeAll(async () => {
@@ -73,73 +83,37 @@ describe("Create an user", () => {
     }
   });
 
+
+  it("Validate email", async () => {
+    const User = await request(app).post("/users").send(userTest2);
+    const { id } = User.body
+
+    await request(app).get(`/users/verify/${id}`)
+  });
+
+
   it("Testing valid login", async () => {
-    const newUser = await request(app).post("/users").send(userTest1);
-    const { id } = newUser.body.id
-
-    const response = await request(app).get(`/users/verify/${id}`).send(test1Login);
-    console.log('response', response.body)
-
+    const response = await request(app).post("/users/login").send(test2Login)
+  
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty("token");
     expect(typeof response.body.token).toBe("string");
   });
 
 
-  it("Testing valid login", async () => {
-    const response = await request(app).post("/users/login").send(test1Login);
-
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("token");
-    expect(typeof response.body.token).toBe("string");
+  it("Testing invalid login", async () => {
+    const response = await request(app).post("/users/login").send(ErroLogin)
+  
+    expect(response.statusCode).toBe(401);
   });
 
 
-  /* test("Testing valid login", async () => {
-    const email = "test@email.com";
-    const password = "12345";
+  test("Testing user listing adm", async () => {
+    const login = await request(app).post("/users/login").send(test2Login);
+    const { token } = login.body
 
-    const response = await userLoginService(email, password);
+    const response = await request(app).get("/users").set("Authorization", `Bearer ${token}`)
 
-    expect(response).toBe(200);
-    expect(response).toHaveProperty("token");
-    expect(typeof response).toBe("string");
+    expect(response.statusCode).toBe(200)
   });
-
-
-  test("Testing invalid login email", async () => {
-    try {
-      const email = "test5@email.com.br";
-      const password = "12345";
-
-      const responseLogin = await userLoginService(email, password);
-    } catch (error) {
-      if (error instanceof AppError) {
-        expect(error.message).toBe("Wrong email/password");
-        expect(error.statusCode).toBe(401);
-      }
-    }
-  });
-
-
-  test("Testing invalid login password", async () => {
-    try {
-      const email = "test@email.com";
-      const password = "123";
-
-      const responseLogin = await userLoginService(email, password);
-    } catch (error) {
-      if (error instanceof AppError) {
-        expect(error.message).toBe("Wrong email/password");
-        expect(error.statusCode).toBe(401);
-      }
-    }
-  });
-
-
-  test("Testing user listing", async () => {
-    const response = await userListService()
-
-    expect(response).toHaveLength(2)
-  }); */
 });

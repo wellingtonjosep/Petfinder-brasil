@@ -9,9 +9,12 @@ const confirmEmailMiddleware = async (
 ) => {
   const userRepository = AppDataSource.getRepository(User);
   const users = await userRepository.find();
-  const verified = users.find((user) => user.email_confirm === true);
 
-  if (!verified) {
+  const { email } = req.body;
+
+  const user = users.find((user) => user.email === email);
+
+  if (!user?.email_confirm === true) {
     return res.status(401).json({ message: "email not verified" });
   }
   next();

@@ -8,7 +8,7 @@ const animalsFoundListService = async () => {
 
   const animalsFound = animals.filter((animal) => animal.found === true);
 
-  return { "Number of animals found": animalsFound.length, List: animalsFound };
+  return { "length": animalsFound.length, List: animalsFound };
 };
 
 export default animalsFoundListService;

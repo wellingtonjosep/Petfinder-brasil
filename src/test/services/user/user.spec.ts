@@ -43,8 +43,9 @@ describe("Create an user", () => {
     const email = "test@email.com";
     const password = "12345";
     const contact = "9999-9999";
+    const isAdm = true;
 
-    const newUser = await userCreateService(userTest1)
+    const newUser = await userCreateService({name, email, password, contact, isAdm});
 
     expect(newUser).toHaveProperty("id");
     expect(newUser.name).toBe("test");
@@ -60,8 +61,9 @@ describe("Create an user", () => {
       const email = "test@email.com";
       const password = "12345";
       const contact = "9999-9999";
+      const isAdm = true;
 
-      const newUser = await userCreateService(userTest1);
+      const newUser = await userCreateService({name, email, password, contact, isAdm});
     } catch (error) {
       if (error instanceof AppError) {
         expect(error.message).toBe("Email already exists");
@@ -70,7 +72,7 @@ describe("Create an user", () => {
   });
 
 
-/*   test("Testing valid login", async () => {
+  test("Testing valid login", async () => {
     const email = "test@email.com";
     const password = "12345";
 
@@ -79,7 +81,7 @@ describe("Create an user", () => {
     expect(response).toBe(200);
     expect(response).toHaveProperty("token");
     expect(typeof response).toBe("string");
-  }); */
+  });
 
 
   test("Testing invalid login email", async () => {
@@ -115,6 +117,6 @@ describe("Create an user", () => {
   test("Testing user listing", async () => {
     const response = await userListService()
 
-    expect(response).toHaveLength(2)
+    expect(response).toHaveLength(0)
   });
 });

@@ -329,6 +329,166 @@
                 }
             }
         },
+        "/animals/{id}": {
+            "patch": {
+                "summary": "Update(alteração), no animal",
+                "description": "Essa rota será responsável por fazer alteração de dados do animal. Você pode passar qualquer alteração para animal, inclusive alterar o found para true(caso esteja false) e assim será direcionado para rota animals/found(quando found === true)",
+                "tags": ["Animals"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id do animal via params",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Animals"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/animals/found": {
+            "get": {
+                "summary": "Listar todos aniamis encontrados",
+                "description": "Essa rota será responsável por listar todos animais que tem o found === true. Retorna também o número total de animais encontrados",
+                "tags": ["Animals"],
+                "requestBody": {
+                    "content": {
+                        "applcation/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Animals"
+                            },
+                            "examples": {
+                                "Animals": {
+                                    "value": {
+                                        "Number of animals found": 2,
+                                        "List": [
+                                            {
+                                                "id": "69770f05-b94c-423b-bd44-5523b8efdfc2",
+                                                "name": "THOR",
+                                                "breed": "rotivailer",
+                                                "species": "puddle",
+                                                "description": "teste teste teste teste teste",
+                                                "image": "outras",
+                                                "lastLocation": "casa wellington",
+                                                "lastDate": "11/05/20",
+                                                "found": true,
+                                                "created_at": "2022-07-14T16:00:08.361Z",
+                                                "updated_at": "2022-07-14T16:00:08.361Z"
+                                            },
+                                            {
+                                                "id": "3b7f02ea-f774-411b-8a2d-008dac13399e",
+                                                "name": "THOR",
+                                                "breed": "rotivailer",
+                                                "species": "puddle",
+                                                "description": "teste teste teste teste teste",
+                                                "image": "outras",
+                                                "lastLocation": "casa wellington",
+                                                "lastDate": "11/05/20",
+                                                "found": true,
+                                                "created_at": "2022-07-13T16:31:23.119Z",
+                                                "updated_at": "2022-07-14T16:00:44.235Z"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Animals"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/animals/lost": {
+            "get": {
+                "summary": "Listar todos animais perdidos",
+                "description": "Essa rota será responsável por listar todos animais que tem o found === false. Retorna também o número total de animais encontrados",
+                "tags": ["Animals"],
+                "requestBody": {
+                    "content": {
+                        "applcation/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Animals"
+                            },
+                            "examples": {
+                                "Animals": {
+                                    "value": {
+                                        "Number of animals lost": 2,
+                                        "List": [
+                                            {
+                                                "id": "c0e354fc-7c53-4409-a6d1-edc116fb3308",
+                                                "name": "THOR",
+                                                "breed": "rotivailer",
+                                                "species": "puddle",
+                                                "description": "teste teste teste teste teste",
+                                                "image": "outras",
+                                                "lastLocation": "casa wellington",
+                                                "lastDate": "11/05/20",
+                                                "found": false,
+                                                "created_at": "2022-07-18T14:08:39.104Z",
+                                                "updated_at": "2022-07-18T14:08:39.104Z"
+                                            },
+                                            {
+                                                "id": "8aa4ebc7-17aa-433d-93cd-6a156c3bfc86",
+                                                "name": "THOR",
+                                                "breed": "rotivailer",
+                                                "species": "puddle",
+                                                "description": "teste teste teste teste teste",
+                                                "image": "outras",
+                                                "lastLocation": "casa wellington",
+                                                "lastDate": "11/05/20",
+                                                "found": false,
+                                                "created_at": "2022-07-18T14:08:40.545Z",
+                                                "updated_at": "2022-07-18T14:08:40.545Z"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "$ref": "#/components/schemas/Animals"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/comments": {
             "post": {
                 "summary": "Registrar comentário na publicação do animal",
@@ -355,6 +515,47 @@
                 "responses": {
                     "201": {
                         "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Comments"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/animals/comments/{id}": {
+            "get": {
+                "summary": "Listar array de comentários de um animal especifico",
+                "description": "Essa rota será responsável listar os comentários de um animal especifico. Passamos o ID via params para conseguir identificar o animal e listar os commentários",
+                "tags": ["Comments"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Comments"
+                            },
+                            "examples": {
+                                "Comments": {
+                                    "value": {
+                                        "userId": "a22b2e10-d0c7-4282-8886-ee3ac7f1123c",
+                                        "animalsId": "d3f9ab5b-d7da-4aa2-b4f0-466b49ac432f",
+                                        "comment": "outro comerntario outro comerntario outro comerntario outro comerntario"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "content": {
                             "application/json": {
                                 "schema": {

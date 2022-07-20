@@ -15,6 +15,6 @@ const animalsFoundListService = () => __awaiter(void 0, void 0, void 0, function
     const animalsRepository = data_source_1.AppDataSource.getRepository(animals_entities_1.Animals);
     const animals = yield animalsRepository.find();
     const animalsFound = animals.filter((animal) => animal.found === true);
-    return { "Number of animals found": animalsFound.length, List: animalsFound };
+    return { "length": animalsFound.length, List: animalsFound };
 });
 exports.default = animalsFoundListService;

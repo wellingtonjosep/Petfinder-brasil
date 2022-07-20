@@ -28,6 +28,10 @@ __decorate([
 ], User.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    __metadata("design:type", Boolean)
+], User.prototype, "isAdm", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
@@ -42,6 +46,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Date)
 ], User.prototype, "updated_at", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: false }),
+    __metadata("design:type", Boolean)
+], User.prototype, "email_confirm", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)((type) => animals_entities_1.Animals, (animal) => animal.user, {
         onDelete: "CASCADE",

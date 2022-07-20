@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const data_source_1 = require("../../data-source");
 const users_entities_1 = require("../../entities/users.entities");
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const appError_1 = require("../../errors/appError");
 const userLoginService = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
@@ -22,12 +22,12 @@ const userLoginService = (email, password) => __awaiter(void 0, void 0, void 0, 
     const users = yield userRepository.find();
     const account = users.find((user) => user.email === email);
     if (!account) {
-        throw new appError_1.AppError(404, "Account not found");
-    }
-    if (!bcrypt_1.default.compareSync(password, account.password)) {
         throw new appError_1.AppError(401, "Wrong email/password");
     }
-    const token = jsonwebtoken_1.default.sign({ email: email, id: account.id }, String(process.env.JWT_SECRET), {
+    if (!bcryptjs_1.default.compareSync(password, account.password)) {
+        throw new appError_1.AppError(401, "Wrong email/password");
+    }
+    const token = jsonwebtoken_1.default.sign({ email: email, id: account.id, isAdm: account.isAdm }, String(process.env.JWT_SECRET), {
         expiresIn: "1d",
     });
     return token;

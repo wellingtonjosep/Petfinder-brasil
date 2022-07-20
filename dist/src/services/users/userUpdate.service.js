@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const data_source_1 = require("../../data-source");
 const users_entities_1 = require("../../entities/users.entities");
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const appError_1 = require("../../errors/appError");
-const userUpdateService = (id, name, email, password, contact) => __awaiter(void 0, void 0, void 0, function* () {
+const userUpdateService = ({ id, name, email, contact, password, }) => __awaiter(void 0, void 0, void 0, function* () {
     const userRepository = data_source_1.AppDataSource.getRepository(users_entities_1.User);
     const user = yield userRepository.findOneBy({ id });
     if (!user) {
@@ -26,8 +26,10 @@ const userUpdateService = (id, name, email, password, contact) => __awaiter(void
         name: name || user.name,
         email: email || user.email,
         contact: contact || user.contact,
-        password: bcrypt_1.default.hashSync(password, 10) || user.password,
+        isAdm: user.isAdm,
+        password: user.password,
     };
+    password && (newUser.password = bcryptjs_1.default.hashSync(password, 10));
     yield userRepository.update(user.id, Object.assign(Object.assign({}, newUser), { updated_at: new Date() }));
     return Object.assign(Object.assign({}, newUser), { password: undefined });
 });

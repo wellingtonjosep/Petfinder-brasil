@@ -29,6 +29,6 @@ const animalUpdateService = ({ id, name, breed, species, description, image, las
         found: found || animal.found,
     };
     yield animalRepository.update(animal.id, Object.assign(Object.assign({}, newAnimal), { updated_at: new Date() }));
-    return Object.assign({}, animal);
+    return Object.assign(Object.assign({}, newAnimal), { updated_at: animal.updated_at, created_at: animal.created_at, id: animal.id });
 });
 exports.default = animalUpdateService;

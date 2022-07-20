@@ -16,8 +16,14 @@ const userCreate_service_1 = __importDefault(require("../../services/users/userC
 const appError_1 = require("../../errors/appError");
 const userCreateController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, email, password, contact } = req.body;
-        const response = yield (0, userCreate_service_1.default)(name, email, password, contact);
+        const { name, email, contact, isAdm, password } = req.body;
+        const response = yield (0, userCreate_service_1.default)({
+            name,
+            email,
+            contact,
+            isAdm,
+            password,
+        });
         return res.status(201).json(response);
     }
     catch (err) {

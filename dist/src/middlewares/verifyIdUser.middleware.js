@@ -15,11 +15,10 @@ const verifyIdUserMiddleware = (req, res, next) => __awaiter(void 0, void 0, voi
     const userRepository = data_source_1.AppDataSource.getRepository(users_entities_1.User);
     const userId = req.userId;
     const { id } = req.params;
-    const user = yield userRepository.findOneBy({ id });
-    if (!user) {
-        return res.status(404).json({
-            message: "User not found",
-        });
+    const users = yield userRepository.find();
+    const idExist = users.find((user) => user.id === id);
+    if (!idExist) {
+        return res.status(404).json({ message: "user not found" });
     }
     if (id !== userId) {
         return res.status(401).json({

@@ -15,6 +15,6 @@ const animalLostListService = () => __awaiter(void 0, void 0, void 0, function* 
     const animalsRepository = data_source_1.AppDataSource.getRepository(animals_entities_1.Animals);
     const animals = yield animalsRepository.find();
     const animalsLost = animals.filter((animal) => animal.found === false);
-    return animalsLost;
+    return { "length": animalsLost.length, List: animalsLost };
 });
 exports.default = animalLostListService;

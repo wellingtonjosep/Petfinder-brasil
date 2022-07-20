@@ -16,9 +16,15 @@ const userUpdate_service_1 = __importDefault(require("../../services/users/userU
 const appError_1 = require("../../errors/appError");
 const userUpdateController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, email, password, contact } = req.body;
         const { id } = req.params;
-        const response = yield (0, userUpdate_service_1.default)(id, name, email, password, contact);
+        const { name, email, password, contact } = req.body;
+        const response = yield (0, userUpdate_service_1.default)({
+            id,
+            name,
+            email,
+            password,
+            contact,
+        });
         return res.status(200).json(response);
     }
     catch (err) {

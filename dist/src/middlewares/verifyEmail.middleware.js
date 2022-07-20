@@ -18,7 +18,7 @@ const verifyEmailMiddleware = (req, res, next) => __awaiter(void 0, void 0, void
     const emailExists = users.find((element) => element.email === email);
     if (emailExists) {
         return res.status(401).json({
-            message: "Email already exists"
+            message: "Email already exists",
         });
     }
     next();

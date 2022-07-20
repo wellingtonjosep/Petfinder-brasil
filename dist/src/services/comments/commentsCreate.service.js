@@ -18,17 +18,10 @@ const commentsCreateService = (comment, userId, animalsId) => __awaiter(void 0, 
     const userRepository = data_source_1.AppDataSource.getRepository(users_entities_1.User);
     const animalsRepository = data_source_1.AppDataSource.getRepository(animals_entities_1.Animals);
     const commentsRepository = data_source_1.AppDataSource.getRepository(comments_1.Comments);
-    const user = yield userRepository.findOne({
-        where: {
-            id: userId,
-        },
-    });
-    const animal = yield animalsRepository.findOne({
-        where: {
-            id: animalsId,
-        },
-        relations: ["comments"],
-    });
+    const users = yield userRepository.find();
+    const user = users.find((element) => element.id === userId);
+    const animals = yield animalsRepository.find();
+    const animal = animals.find((element) => element.id === animalsId);
     if (!user || !animal) {
         throw new appError_1.AppError(404, "user or animals not exist");
     }
@@ -38,6 +31,7 @@ const commentsCreateService = (comment, userId, animalsId) => __awaiter(void 0, 
         comment,
         userName: user.name,
         created_at: new Date(),
+        id: undefined,
     });
     yield commentsRepository.save(newComment);
     if (animal.comments) {
@@ -47,7 +41,7 @@ const commentsCreateService = (comment, userId, animalsId) => __awaiter(void 0, 
         yield animalsRepository.save(Object.assign(Object.assign({}, animal), { comments: [newComment] }), {});
     }
     const { animal: animalReturn } = newComment;
-    const { comments } = animalReturn;
-    return Object.assign(Object.assign({}, newComment), { user: undefined, animal: undefined });
+    const { comments } = animalReturn; //retorna todos comentários do animal
+    return Object.assign(Object.assign({}, newComment), { user: undefined, animal: undefined, id: undefined });
 });
 exports.default = commentsCreateService;

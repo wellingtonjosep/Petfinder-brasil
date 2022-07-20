@@ -12,9 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const data_source_1 = require("../../data-source");
 const animals_entities_1 = require("../../entities/animals.entities");
 const comments_1 = require("../../entities/comments");
+const appError_1 = require("../../errors/appError");
 const findAnimalsCommentsService = (id, comments) => __awaiter(void 0, void 0, void 0, function* () {
     const animalRepository = data_source_1.AppDataSource.getRepository(animals_entities_1.Animals);
     const commentsRepository = data_source_1.AppDataSource.getRepository(comments_1.Comments);
+    const animals = yield animalRepository.find();
+    const animalExist = animals.find((element) => element.id === id);
+    if (!animalExist) {
+        throw new appError_1.AppError(404, "Animal not exist");
+    }
     const comment = yield commentsRepository.findOne({
         where: {
             id: comments,
@@ -32,6 +38,13 @@ const findAnimalsCommentsService = (id, comments) => __awaiter(void 0, void 0, v
     if (!animal) {
         throw "not found comments";
     }
-    return { animal };
+    const animalNameComments = [
+        {
+            name: animal.name,
+            found: animal.found,
+            comments: animal.comments,
+        },
+    ];
+    return { animalNameComments };
 });
 exports.default = findAnimalsCommentsService;

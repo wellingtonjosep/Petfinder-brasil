@@ -20,7 +20,7 @@ const data_source_1 = require("./data-source");
         console.log("Servidor online");
     })
         .catch((err) => {
-        console.log(err);
+        console.error("Error during Data Source initialization", err);
     });
     app_1.default.listen(process.env.PORT || 3001);
 }))();

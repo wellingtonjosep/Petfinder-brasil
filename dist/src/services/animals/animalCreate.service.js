@@ -16,11 +16,8 @@ const appError_1 = require("../../errors/appError");
 const animalCreateService = (name, breed, species, description, image, lastLocation, lastDate, found, userId) => __awaiter(void 0, void 0, void 0, function* () {
     const animalsRepository = data_source_1.AppDataSource.getRepository(animals_entities_1.Animals);
     const userRepository = data_source_1.AppDataSource.getRepository(users_entities_1.User);
-    const user = yield userRepository.findOne({
-        where: {
-            id: userId,
-        },
-    });
+    const users = yield userRepository.find();
+    const user = users.find((element) => element.id === userId);
     if (!user) {
         throw new appError_1.AppError(404, "user not exist");
     }
@@ -38,6 +35,6 @@ const animalCreateService = (name, breed, species, description, image, lastLocat
         updated_at: new Date(),
     });
     yield animalsRepository.save(animal);
-    return Object.assign(Object.assign({}, animal), { user: animal.user.id });
+    return Object.assign(Object.assign({}, animal), { userId: animal.user.id, user: undefined });
 });
 exports.default = animalCreateService;

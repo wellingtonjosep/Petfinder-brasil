@@ -66,7 +66,9 @@ __decorate([
     __metadata("design:type", users_entities_1.User)
 ], Animals.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)(() => comments_1.Comments),
+    (0, typeorm_1.ManyToMany)(() => comments_1.Comments, {
+        eager: true,
+    }),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], Animals.prototype, "comments", void 0);

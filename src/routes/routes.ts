@@ -42,6 +42,7 @@ router.post(
   userCreateController
 );
 router.post("/users/login", confirmEmailMiddleware, userLoginController);
+
 router.patch(
   "/users/:id",
   verifyTokenMiddleware,

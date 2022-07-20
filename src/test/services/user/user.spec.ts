@@ -44,8 +44,9 @@ describe("Create an user", () => {
       const email = "test@email.com";
       const password = "12345";
       const contact = "9999-9999";
+      const isAdm = true
 
-      const newUser = await userCreateService(name, email, contact, password);
+      const newUser = await userCreateService({name, email, contact, isAdm, password});
     } catch (error) {
       if (error instanceof AppError) {
         expect(error.message).toBe("Email already exists");

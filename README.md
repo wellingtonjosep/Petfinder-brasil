@@ -124,5 +124,49 @@ Recebido:
 	"userId": "(id usuario)",
 }
 ```
+```
+PATCH /animals/:id
+authentication: token do usuario
 
+Enviado:
+{
+	"found": true
+}
+
+Recebido: 
+{
+	"name": "exemplo",
+	"breed": "exemplo",
+	"species": "exemplo",
+	"description": "exemplo",
+	"image": "https://exemplo.com",
+	"lastLocation": "exemplo",
+	"lastDate": "01/01/2001",
+	"found": true,
+	"created_at": "2022-07-18T16:30:44.726Z",
+	"updated_at": "2022-07-18T16:31:20.726Z",
+	"id": "ca97c129-82c8-44bb-af02-88b3b8bedad8"
+}
+```
+```
+POST /comments
+authentication: token do usuario
+
+Enviado:
+{
+	"userId": "68f4ee59-4011-4dcf-8266-9a8331241250",
+	"comment": "atuzalid",
+	"animalsId": "ca97c129-82c8-44bb-af02-88b3b8bedad8"
+}
+
+Recebido: 
+{
+	"userName": "exemplo",
+	"comment": "atuzalid",
+	"created_at": "2022-07-18T16:41:27.861Z",
+	"animal": "ca97c129-82c8-44bb-af02-88b3b8bedad8",
+	"id": "66bb5d86-56d9-4568-a24e-56f6789cf3a8"
+}
+```
+>Para acessar mais informações sobre as rotas: [Documentação](https://api-capstone-petfinder.herokuapp.com/docs/)
     
